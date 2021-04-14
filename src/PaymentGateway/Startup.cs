@@ -24,9 +24,7 @@ namespace PaymentGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddApplicationInsightsTelemetry(options => options.EnableAdaptiveSampling = false);
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
