@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{178618C1-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E11947B1-63A0-40D8-899C-8312AFE0B55F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperWrapper", "lib\DapperWrapper\DapperWrapper.csproj", "{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +23,17 @@ Global
 		{5C793940-5641-4442-B593-23D1D5EE8D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C793940-5641-4442-B593-23D1D5EE8D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C793940-5641-4442-B593-23D1D5EE8D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5C793940-5641-4442-B593-23D1D5EE8D68} = {BDA78E42-1F8C-4AAE-AC51-BC00DEF355DC}
+		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0B2311C-C9C4-42ED-976A-A72066F725CE}
