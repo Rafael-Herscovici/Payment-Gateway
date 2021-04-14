@@ -1,12 +1,17 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace PaymentGateway
 {
+#pragma warning disable CS1591
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -21,6 +26,26 @@ namespace PaymentGateway
             services.AddControllers();
 
             services.AddApplicationInsightsTelemetry(options => options.EnableAdaptiveSampling = false);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = $"{nameof(PaymentGateway)} API",
+                    Description = "A take home task from Checkout.com",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Rafael Herscovici",
+                        Email = "rafael@orielo.co.uk",
+                        Url = new Uri("https://www.linkedin.com/in/rafael-herscovici-86907a6b/"),
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,6 +58,13 @@ namespace PaymentGateway
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", nameof(PaymentGateway));
+            });
 
             app.UseHttpsRedirection();
 
@@ -48,4 +80,5 @@ namespace PaymentGateway
             });
         }
     }
+#pragma warning restore CS1591
 }
