@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using DbAccess.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,8 @@ namespace PaymentGateway
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
+
+            services.Configure<DbAccessOptions>(Configuration.GetSection(nameof(DbAccessOptions)));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

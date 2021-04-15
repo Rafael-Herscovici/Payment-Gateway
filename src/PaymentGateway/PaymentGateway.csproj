@@ -4,7 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>b919e301-f158-4b67-82be-e287f046a589</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <!-- Swagger -->
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -22,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\lib\CommonModels\CommonModels.csproj" />
+    <ProjectReference Include="..\..\lib\DbAccess\DbAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

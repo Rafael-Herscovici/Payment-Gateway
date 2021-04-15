@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E11947B1-63A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperWrapper", "lib\DapperWrapper\DapperWrapper.csproj", "{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonModels", "lib\CommonModels\CommonModels.csproj", "{A7A0C9F1-1D47-4293-9F54-C5C118BA020B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonModels", "lib\CommonModels\CommonModels.csproj", "{A7A0C9F1-1D47-4293-9F54-C5C118BA020B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbAccess", "lib\DbAccess\DbAccess.csproj", "{86E9AB33-823C-490B-BDC8-2DC944CA4A55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A7A0C9F1-1D47-4293-9F54-C5C118BA020B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7A0C9F1-1D47-4293-9F54-C5C118BA020B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7A0C9F1-1D47-4293-9F54-C5C118BA020B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E9AB33-823C-490B-BDC8-2DC944CA4A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E9AB33-823C-490B-BDC8-2DC944CA4A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E9AB33-823C-490B-BDC8-2DC944CA4A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E9AB33-823C-490B-BDC8-2DC944CA4A55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{5C793940-5641-4442-B593-23D1D5EE8D68} = {BDA78E42-1F8C-4AAE-AC51-BC00DEF355DC}
 		{4B57C3C6-8C4F-4F1B-A22F-840AFA4CDC0D} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
 		{A7A0C9F1-1D47-4293-9F54-C5C118BA020B} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
+		{86E9AB33-823C-490B-BDC8-2DC944CA4A55} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0B2311C-C9C4-42ED-976A-A72066F725CE}

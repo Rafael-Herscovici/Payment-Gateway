@@ -4,8 +4,8 @@ namespace CommonModels
 {
     public class PaymentRequest : CardDetails
     {
-        public Guid MerchantId { get; set; }
-        public decimal Amount { get; set; }
-        public Currency Currency { get; set; }
+        public Guid MerchantId { get; } = Guid.NewGuid();
+        public decimal? Amount { get; set; } = null!;
+        public Currency Currency { get; set; } = null!;
     }
 }

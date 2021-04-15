@@ -16,8 +16,8 @@ namespace DapperWrapper
         public virtual Task<IEnumerable<T>> QueryAsync<T>(
             IDbConnection dbConnection,
             string sql,
-            object param = null,
-            IDbTransaction transaction = null,
+            object param = null!,
+            IDbTransaction transaction = null!,
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
@@ -27,8 +27,8 @@ namespace DapperWrapper
         public virtual Task<int> ExecuteAsync(
             IDbConnection dbConnection,
             string sql,
-            object param = null,
-            IDbTransaction transaction = null,
+            object param = null!,
+            IDbTransaction transaction = null!,
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
