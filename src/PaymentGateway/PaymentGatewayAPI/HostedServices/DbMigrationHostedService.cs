@@ -8,14 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PaymentGatewayAPI.HostedServices
 {
-    /// <summary>
-    /// Apply database migrations (or create from scratch)
-    /// </summary>
+    /// <inheritdoc />
     public class DbMigrationHostedService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
         /// <summary>
-        /// 
+        /// Apply database migrations (or create from scratch)
         /// </summary>
         /// <param name="serviceProvider"></param>
         public DbMigrationHostedService(IServiceProvider serviceProvider)

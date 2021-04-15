@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using PaymentGatewayAPI.Models;
+﻿using Microsoft.Extensions.Logging;
 using PaymentGatewayDB;
 
 namespace PaymentGatewayAPI.Services
@@ -17,7 +13,6 @@ namespace PaymentGatewayAPI.Services
         /// <summary>
         /// Provides database access for the payment gateway api
         /// </summary>
-        /// <param name="dbAccessOptions"></param>
         /// <param name="logger"></param>
         /// <param name="dbContext"></param>
         public DbAccess(

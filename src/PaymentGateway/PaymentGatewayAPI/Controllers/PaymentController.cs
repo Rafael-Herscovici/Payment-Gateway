@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 
-namespace PaymentGateway.Controllers
+namespace PaymentGatewayAPI.Controllers
 {
     /// <summary>
     /// Responsible for receiving payment requests for a merchant

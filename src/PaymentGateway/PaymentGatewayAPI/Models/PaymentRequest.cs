@@ -1,5 +1,4 @@
 ﻿using System;
-using CommonModels;
 
 namespace PaymentGatewayAPI.Models
 {
