@@ -2,10 +2,10 @@
 
 namespace CommonModels
 {
-    public class CardPayment
+    public class CardDetails
     {
         public string CardNumber { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public ushort CVV { get; set; }
+        public string CVV { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace CommonModels
 {
-    public class PaymentRequest : CardPayment
+    public class PaymentRequest : CardDetails
     {
-        public Guid CorrelationId { get; set; }
+        public Guid MerchantId { get; set; }
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
     }
