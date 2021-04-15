@@ -1,9 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
 
-namespace PaymentGateway
+namespace PaymentGatewayAPI
 {
 #pragma warning disable CS1591
     public class Program

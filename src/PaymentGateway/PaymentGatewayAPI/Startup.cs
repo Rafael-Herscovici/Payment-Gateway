@@ -1,16 +1,18 @@
 using System;
 using System.IO;
 using System.Reflection;
-using DbAccess.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PaymentGatewayAPI.HostedServices;
+using PaymentGatewayAPI.Models;
+using PaymentGatewayDB;
 using Serilog;
 
-namespace PaymentGateway
+namespace PaymentGatewayAPI
 {
 #pragma warning disable CS1591
     public class Startup
@@ -24,8 +26,8 @@ namespace PaymentGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<DbMigrationHostedService>();
             services.AddControllers();
-            services.AddApplicationInsightsTelemetry(options => options.EnableAdaptiveSampling = false);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -46,7 +48,8 @@ namespace PaymentGateway
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
 
-            services.Configure<DbAccessOptions>(Configuration.GetSection(nameof(DbAccessOptions)));
+            services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
+            services.AddPaymentGatewayDb(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

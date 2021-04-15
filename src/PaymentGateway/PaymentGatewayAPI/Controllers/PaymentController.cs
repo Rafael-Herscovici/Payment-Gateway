@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using CommonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PaymentGatewayAPI.Models;
 
 namespace PaymentGateway.Controllers
 {
