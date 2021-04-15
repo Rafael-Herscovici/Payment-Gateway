@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PaymentGatewayAPI.Models
 {
@@ -7,24 +8,28 @@ namespace PaymentGatewayAPI.Models
     /// </summary>
     public class PaymentRequest
     {
-        /// <inheritdoc cref="PaymentRequest" />
-        public PaymentRequest(Guid merchantId)
-        {
-            MerchantId = merchantId;
-        }
-
         /// <summary>
         /// The merchant id of the payment request
         /// </summary>
-        public Guid MerchantId { get; }
+        [Required]
+        public Guid MerchantId { get; set; }
+
         /// <summary>
         /// The amount to charge
         /// </summary>
-        public decimal? Amount { get; set; } = null!;
+        [Required]
+        public decimal Amount { get; set; }
+
+        /// <summary>
+        /// The currency to charge in (3 letter ISO 4217 code)
+        /// </summary>
+        [Required, StringLength(maximumLength:3, MinimumLength = 3)]
+        public string Currency { get; set; }
 
         /// <summary>
         /// The card details used in this transaction
         /// </summary>
-        public virtual CardDetails CardDetails { get; set; } = null!;
+        [Required]
+        public CardDetails CardDetails { get; set; }
     }
 }

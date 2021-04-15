@@ -1,25 +1,29 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PaymentGatewayAPI.Models
 {
     /// <summary>
-    /// A card details model
+    /// A debit/credit card details
     /// </summary>
     public class CardDetails
     {
         /// <summary>
         /// The card number
         /// </summary>
-        public string Number { get; set; } = null!;
+        /// <remarks>There are alogritms to calculate if a card number is valid, not implemented.</remarks>
+        [Required, StringLength(maximumLength: 16, MinimumLength = 16)]
+        public string CardNumber { get; set; }
 
         /// <summary>
-        /// The card expiry date
+        /// The card expiry date, must be in MM/yy format
         /// </summary>
-        public DateTime? ExpiryDate { get; set; } = null!;
+        [Required, StringLength(maximumLength: 5, MinimumLength = 5)]
+        public string CardExpiryDate { get; set; }
 
         /// <summary>
-        /// The CVV of the card
+        /// The CardSecurityCode of the card
         /// </summary>
-        public string CVV { get; set; } = null!;
+        [Required, StringLength(maximumLength: 3, MinimumLength = 3)]
+        public string CardSecurityCode { get; set; }
     }
 }

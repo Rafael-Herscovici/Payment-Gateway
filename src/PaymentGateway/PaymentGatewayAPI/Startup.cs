@@ -33,7 +33,7 @@ namespace PaymentGatewayAPI
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = $"{nameof(PaymentGateway)} API",
+                    Title = $"{nameof(PaymentGatewayAPI)}",
                     Description = "A take home task from Checkout.com",
                     Contact = new OpenApiContact
                     {
@@ -67,7 +67,7 @@ namespace PaymentGatewayAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", nameof(PaymentGateway));
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", nameof(PaymentGatewayAPI));
             });
 
             app.UseHttpsRedirection();
