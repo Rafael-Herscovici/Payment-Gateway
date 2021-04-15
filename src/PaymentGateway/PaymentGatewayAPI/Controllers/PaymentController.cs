@@ -26,9 +26,12 @@ namespace PaymentGatewayAPI.Controllers
         /// <param name="paymentRequest">a <see cref="PaymentRequest"/> model.</param>
         /// <returns></returns>
         [HttpPost]
-        public Task Post(PaymentRequest paymentRequest)
+        public IActionResult Post(PaymentRequest paymentRequest)
         {
-            return Task.CompletedTask;
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok();
         }
     }
 }
