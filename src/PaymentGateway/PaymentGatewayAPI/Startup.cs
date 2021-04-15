@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PaymentGatewayAPI.HostedServices;
 using PaymentGatewayAPI.Models;
+using PaymentGatewayAPI.Services;
 using PaymentGatewayDB;
 using Serilog;
 
@@ -26,6 +27,7 @@ namespace PaymentGatewayAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddPaymentGatewayDb(Configuration);
             services.AddHostedService<DbMigrationHostedService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -49,7 +51,7 @@ namespace PaymentGatewayAPI
             });
 
             services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
-            services.AddPaymentGatewayDb(Configuration);
+            services.AddScoped<DbAccess>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

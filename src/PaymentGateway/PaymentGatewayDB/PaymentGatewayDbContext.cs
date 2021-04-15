@@ -13,11 +13,11 @@ namespace PaymentGatewayDB
         /// <summary>
         /// Existing payments
         /// </summary>
-        public DbSet<PaymentRequest> PaymentRequests { get; set; }
+        public DbSet<PaymentRequestEntity> PaymentRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PaymentRequest>(builder =>
+            modelBuilder.Entity<PaymentRequestEntity>(builder =>
             {
                 builder.HasKey(request => request.PaymentId);
                 builder.HasIndex(request => request.MerchantId);

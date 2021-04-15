@@ -8,7 +8,7 @@ namespace PaymentGatewayAPI.Attributes
     /// <summary>
     /// Validates the structure and "date in future" of the expiry date
     /// </summary>
-    public class CardExpiryDateValidator : ValidationAttribute
+    public class CardExpiryDateValidatorAttribute : ValidationAttribute
     {
         /// <inheritdoc />
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

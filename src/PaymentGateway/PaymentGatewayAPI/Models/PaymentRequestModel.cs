@@ -6,7 +6,7 @@ namespace PaymentGatewayAPI.Models
     /// <summary>
     /// A payment request model
     /// </summary>
-    public class PaymentRequest
+    public class PaymentRequestModel
     {
         /// <summary>
         /// The merchant id of the payment request
@@ -20,16 +20,19 @@ namespace PaymentGatewayAPI.Models
         [Required]
         public decimal Amount { get; set; }
 
+        // Dev Note: in a real world app, we probably would have dictionary with the available currencies
+        // and would use validation to validate the user input is a valid currency.
+
         /// <summary>
         /// The currency to charge in (3 letter ISO 4217 code)
         /// </summary>
-        [Required, StringLength(maximumLength:3, MinimumLength = 3)]
-        public string Currency { get; set; }
+        [Required, StringLength(maximumLength: 3, MinimumLength = 3)]
+        public string Currency { get; set; } = null!;
 
         /// <summary>
         /// The card details used in this transaction
         /// </summary>
         [Required]
-        public CardDetails CardDetails { get; set; }
+        public CardDetailsModel CardDetails { get; set; } = null!;
     }
 }

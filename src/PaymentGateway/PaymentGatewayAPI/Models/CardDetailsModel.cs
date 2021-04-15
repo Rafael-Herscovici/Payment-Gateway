@@ -6,13 +6,12 @@ namespace PaymentGatewayAPI.Models
     /// <summary>
     /// A debit/credit card details
     /// </summary>
-    public class CardDetails
+    public class CardDetailsModel
     {
         /// <summary>
         /// The card number
         /// </summary>
         [Required]
-        [StringLength(maximumLength: 16, MinimumLength = 16)]
         [CreditCard]
         public string CardNumber { get; set; } = null!;
 
