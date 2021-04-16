@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Models;
 using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayAPI.Models

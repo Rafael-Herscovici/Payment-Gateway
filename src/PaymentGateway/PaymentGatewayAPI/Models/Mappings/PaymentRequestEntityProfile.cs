@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Models;
 using Newtonsoft.Json;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayDB.Entities;

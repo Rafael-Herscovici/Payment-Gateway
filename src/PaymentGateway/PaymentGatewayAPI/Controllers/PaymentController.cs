@@ -26,7 +26,7 @@ namespace PaymentGatewayAPI.Controllers
         /// Get a payment by its id
         /// </summary>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
-        /// <param name="paymentId"></param>
+        /// <param name="paymentId">The payment id</param>
         /// <returns>
         ///     <see cref="PaymentHistoric"/> when processed successfully
         ///     <see cref="NotFoundResult"/> result when validation fails
@@ -36,7 +36,7 @@ namespace PaymentGatewayAPI.Controllers
             [FromServices] DbAccess dbAccess,
             Guid paymentId)
         {
-            // Dev note: This endpoint allow to retriev ANY paymentId, since we have no secure way to authenticate the merchant
+            // Dev note: This endpoint allow to retrieve ANY paymentId, since we have no secure way to authenticate the merchant
             // We could implement authentication and then get the merchant id from the authenticated user and only provide payments
             // that were created by that specific merchant.
 

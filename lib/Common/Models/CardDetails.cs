@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using PaymentGatewayAPI.Attributes;
+using Common.Attributes;
 
-namespace PaymentGatewayAPI.Models
+namespace Common.Models
 {
     /// <summary>
     /// A debit/credit card details
