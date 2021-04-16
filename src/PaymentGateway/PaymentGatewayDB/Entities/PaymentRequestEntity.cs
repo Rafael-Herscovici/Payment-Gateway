@@ -1,7 +1,7 @@
 ﻿using PaymentGatewayDB.Migrations;
 using System;
 using System.ComponentModel.DataAnnotations;
-using PaymentGatewayDB.Enums;
+using Common.Enums;
 
 namespace PaymentGatewayDB.Entities
 {

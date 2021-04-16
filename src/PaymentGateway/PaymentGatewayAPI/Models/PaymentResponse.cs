@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Common.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayAPI.Models
 {

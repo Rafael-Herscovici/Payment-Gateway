@@ -13,7 +13,5 @@ namespace BankEmulator.Controllers
         {
             _logger = logger;
         }
-
-
     }
 }

@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Common;
+using Common.Enums;
 using Common.Models;
 using Newtonsoft.Json;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayDB.Entities;
-using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayAPI.Models.Mappings
 {
+#pragma warning disable CS1591
     public class PaymentRequestEntityProfile : Profile
     {
         public PaymentRequestEntityProfile()
@@ -96,4 +97,5 @@ namespace PaymentGatewayAPI.Models.Mappings
             }
         }
     }
+#pragma warning restore CS1591
 }

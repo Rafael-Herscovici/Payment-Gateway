@@ -11,5 +11,5 @@ services:
     image: ${DOCKER_REGISTRY-}bankemulator
     build:
       context: .
-      dockerfile: 3thParty/BankEmulator/Dockerfile
+      dockerfile: src/BankEmulator/BankEmulatorAPI/Dockerfile
 

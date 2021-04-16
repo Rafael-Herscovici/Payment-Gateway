@@ -1,5 +1,5 @@
-﻿using PaymentGatewayDB.Enums;
-using System;
+﻿using System;
+using Common.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
