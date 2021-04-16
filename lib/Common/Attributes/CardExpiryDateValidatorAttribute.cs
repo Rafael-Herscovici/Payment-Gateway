@@ -11,7 +11,7 @@ namespace Common.Attributes
     public class CardExpiryDateValidatorAttribute : ValidationAttribute
     {
         /// <inheritdoc />
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var expiryDate = value?.ToString();
             if (string.IsNullOrEmpty(expiryDate))

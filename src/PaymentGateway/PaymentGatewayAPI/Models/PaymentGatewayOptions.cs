@@ -1,15 +1,12 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using CommonAPI.Models;
 
 namespace PaymentGatewayAPI.Models
 {
     /// <summary>
     /// Payment gateway options
     /// </summary>
-    public class PaymentGatewayOptions
+    public class PaymentGatewayOptions : ApiOptions
     {
-        /// <summary>
-        /// The aes key used for encrypt/decrypt
-        /// </summary>
-        public string AesEncryptionKey { get; set; } = null!;
+
     }
 }

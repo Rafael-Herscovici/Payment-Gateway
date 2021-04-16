@@ -49,7 +49,7 @@ namespace PaymentGatewayDB
                     .HasColumnType("varchar(max)")
                     .IsRequired();
                 builder.Property(request => request.Amount)
-                    .HasColumnType("decimal(18,4)");
+                    .HasColumnType("decimal(19,4)");
                 builder.Property(request => request.Currency)
                     .HasColumnType("char(3)")
                     .IsRequired();

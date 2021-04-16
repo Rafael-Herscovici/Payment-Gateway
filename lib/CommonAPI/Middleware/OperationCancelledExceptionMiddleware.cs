@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace PaymentGatewayAPI.Middleware
+namespace CommonAPI.Middleware
 {
 #pragma warning disable CS1591
     public class OperationCancelledExceptionMiddleware

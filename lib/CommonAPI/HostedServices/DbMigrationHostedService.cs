@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using PaymentGatewayDB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace PaymentGatewayAPI.HostedServices
+namespace CommonAPI.HostedServices
 {
     /// <inheritdoc />
-    public class DbMigrationHostedService : IHostedService
+    public class DbMigrationHostedService<TDbContext> : IHostedService
+        where TDbContext : DbContext
     {
         private readonly IServiceProvider _serviceProvider;
         /// <summary>
@@ -25,7 +27,7 @@ namespace PaymentGatewayAPI.HostedServices
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             using var scope = _serviceProvider.CreateScope();
-            var myDbContext = scope.ServiceProvider.GetRequiredService<PaymentGatewayDbContext>();
+            var myDbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
             await myDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
         }
 

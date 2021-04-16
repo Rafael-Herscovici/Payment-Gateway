@@ -13,7 +13,7 @@ namespace PaymentGatewayDB.Migrations
                 {
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MerchantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
                     Currency = table.Column<string>(type: "char(3)", nullable: false),
                     CardDetails = table.Column<string>(type: "varchar(max)", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),

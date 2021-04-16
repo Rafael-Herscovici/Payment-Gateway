@@ -22,6 +22,8 @@ namespace Common.Models
         [CardExpiryDateValidator]
         public string CardExpiryDate { get; set; } = null!;
 
+        // Dev note: we should really not be saving this value, See SECURITY BENEFITS on https://en.wikipedia.org/wiki/Card_security_code
+
         /// <summary>
         /// The CardSecurityCode of the card
         /// </summary>

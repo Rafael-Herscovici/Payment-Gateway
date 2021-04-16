@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PaymentGatewayDB.Migrations
+namespace Common.Entities
 {
     public class BaseEntity
     {

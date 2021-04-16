@@ -26,7 +26,7 @@ namespace PaymentGatewayDB.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("CardDetails")
                         .IsRequired()
