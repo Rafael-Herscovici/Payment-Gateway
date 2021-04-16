@@ -22,7 +22,6 @@ namespace PaymentGatewayAPI.Services
         private readonly PaymentGatewayDbContext _dbContext;
         private readonly Encryption _encryption;
 
-
         /// <summary>
         /// Provides database access for the payment gateway api
         /// </summary>

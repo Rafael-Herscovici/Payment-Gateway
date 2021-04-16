@@ -15,9 +15,9 @@ namespace PaymentGatewayAPI.Attributes
         {
             var expiryDate = value?.ToString();
             if (string.IsNullOrEmpty(expiryDate))
-                return new ValidationResult("" + validationContext.DisplayName + " is required.");
+                return new ValidationResult(validationContext.DisplayName + " is required.");
 
-            if (!Regex.IsMatch(expiryDate, @"^(0[1-9]|1[0-2])\-?(([0-9]{2})$)"))
+            if (!Regex.IsMatch(expiryDate, @$"^(0[1-9]|1[0-2])\{Constants.DateSeparator}?(([0-9]{2})$)"))
                 return new ValidationResult($"Must be in MM{Constants.DateSeparator}yy format.");
 
             var split = expiryDate.Split(Constants.DateSeparator);
