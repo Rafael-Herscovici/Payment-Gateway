@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayDB;
 using PaymentGatewayDB.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using PaymentGatewayAPI.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -39,10 +41,10 @@ namespace PaymentGatewayAPI.Services
         /// <summary>
         /// Processes a payment request
         /// </summary>
-        /// <param name="paymentRequestModel">a <see cref="PaymentRequestModel"/> model.</param>
+        /// <param name="paymentRequestModel">a <see cref="PaymentRequest"/> model.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to abort the request.</param>
-        public virtual async Task ProcessPaymentAsync(
-            PaymentRequestModel paymentRequestModel,
+        public virtual async Task<PaymentResponse> ProcessPaymentAsync(
+            PaymentRequest paymentRequestModel,
             CancellationToken cancellationToken)
         {
             // Dev note: Model mappings should have a class of their own (or use Automapper)
@@ -55,6 +57,11 @@ namespace PaymentGatewayAPI.Services
             };
             await _dbContext.AddAsync(paymentRequestEntity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return new PaymentResponse
+            {
+                PaymentId = paymentRequestEntity.PaymentId,
+                Status = PaymentStatus.Success
+            };
         }
     }
 }

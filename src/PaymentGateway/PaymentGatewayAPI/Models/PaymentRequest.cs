@@ -6,7 +6,7 @@ namespace PaymentGatewayAPI.Models
     /// <summary>
     /// A payment request model
     /// </summary>
-    public class PaymentRequestModel
+    public class PaymentRequest
     {
         /// <summary>
         /// The merchant id of the payment request
@@ -33,6 +33,6 @@ namespace PaymentGatewayAPI.Models
         /// The card details used in this transaction
         /// </summary>
         [Required]
-        public CardDetailsModel CardDetails { get; set; } = null!;
+        public CardDetails CardDetails { get; set; } = null!;
     }
 }

@@ -1,12 +1,14 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
 using PaymentGatewayAPI.HostedServices;
 using PaymentGatewayAPI.Middleware;
 using PaymentGatewayAPI.Models;
@@ -30,7 +32,9 @@ namespace PaymentGatewayAPI
         {
             services.AddPaymentGatewayDb(Configuration);
             services.AddHostedService<DbMigrationHostedService>();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddSwaggerGen(c =>
             {
                 var openApiInfo = Configuration.GetSection(nameof(OpenApiInfo)).Get<OpenApiInfo>();
@@ -40,6 +44,7 @@ namespace PaymentGatewayAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, true);
             });
+            services.AddSwaggerGenNewtonsoftSupport();
 
             services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
             services.AddScoped<DbAccess>();

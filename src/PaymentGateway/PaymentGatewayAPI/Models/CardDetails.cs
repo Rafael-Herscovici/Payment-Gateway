@@ -6,7 +6,7 @@ namespace PaymentGatewayAPI.Models
     /// <summary>
     /// A debit/credit card details
     /// </summary>
-    public class CardDetailsModel
+    public class CardDetails
     {
         /// <summary>
         /// The card number

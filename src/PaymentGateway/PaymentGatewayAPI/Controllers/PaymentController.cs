@@ -25,19 +25,19 @@ namespace PaymentGatewayAPI.Controllers
         /// Process a payment on a merchant behalf.
         /// </summary>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
-        /// <param name="paymentRequest">a <see cref="PaymentRequestModel"/> model.</param>
+        /// <param name="paymentRequest">a <see cref="PaymentRequest"/> model.</param>
         /// <returns>
         ///     <see cref="OkResult"/> when processed successfully
         ///     <see cref="BadRequestResult"/> result when validation fails
         /// </returns>
         [HttpPost]
-        public async Task<IActionResult> ProcessPaymentAsync(
+        public async Task<ActionResult<PaymentResponse>> ProcessPaymentAsync(
             [FromServices] DbAccess dbAccess,
-            [FromBody]     PaymentRequestModel paymentRequest)
+            [FromBody]     PaymentRequest paymentRequest)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogInformation($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");
+                _logger.LogWarning($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");
                 return BadRequest(ModelState);
             }
 
@@ -45,9 +45,7 @@ namespace PaymentGatewayAPI.Controllers
             // We have the operation cancelled exception middleware to handle those.
             HttpContext.RequestAborted.ThrowIfCancellationRequested();
 
-            await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted);
-
-            return Ok();
+            return Ok(await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted));
         }
     }
 }
