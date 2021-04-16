@@ -3,7 +3,7 @@ using Common.Entities;
 
 namespace BankEmulatorDB.Entities
 {
-    public class Account : BaseEntity
+    public class AccountEntity : BaseEntity
     {
         public int CardNumber { get; set; }
         public DateTime CardExpiryDate { get; set; }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Common.Generics;
 using Microsoft.EntityFrameworkCore;
 using PaymentGatewayDB.Entities;
 
@@ -10,29 +7,12 @@ namespace PaymentGatewayDB
     /// <summary>
     /// The payment gateway's database context
     /// </summary>
-    public class PaymentGatewayDbContext : DbContext
+    public class PaymentGatewayDbContext : DbContextSaveChangesOverride<PaymentGatewayDbContext>
     {
+        public PaymentGatewayDbContext() { }
         public PaymentGatewayDbContext(DbContextOptions<PaymentGatewayDbContext> options) : base(options) { }
 
         public DbSet<PaymentRequestEntity> PaymentRequests { get; set; } = null!;
-
-        /// <summary>
-        /// Override save changes for automatic population of update date
-        /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public override Task<int> SaveChangesAsync(
-            bool acceptAllChangesOnSuccess,
-            CancellationToken cancellationToken = default)
-        {
-            ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Modified)
-                .ToList()
-                .ForEach(e => e.Property("UpdatedDate").CurrentValue = DateTime.UtcNow);
-
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

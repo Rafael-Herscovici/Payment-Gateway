@@ -1,4 +1,5 @@
 using BankEmulatorAPI.Models;
+using BankEmulatorAPI.Services;
 using BankEmulatorDB;
 using CommonAPI.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,7 @@ namespace BankEmulatorAPI
         {
             services.AddDefaultServices<Startup, BankEmulatorDbContext>(Configuration);
             services.Configure<BankEmulatorOptions>(Configuration.GetSection(nameof(BankEmulatorOptions)));
+            services.AddScoped<DbAccess>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,15 +1,20 @@
 ﻿using BankEmulatorDB.Entities;
+using Common.Generics;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankEmulatorDB
 {
-    public class BankEmulatorDbContext : DbContext
+    public class BankEmulatorDbContext : DbContextSaveChangesOverride<BankEmulatorDbContext>
     {
+        public BankEmulatorDbContext() { }
+
         public BankEmulatorDbContext(DbContextOptions<BankEmulatorDbContext> options) : base(options) { }
+
+        public DbSet<AccountEntity> Accounts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>(builder =>
+            modelBuilder.Entity<AccountEntity>(builder =>
             {
                 builder.HasKey(request => request.CardNumber);
                 builder.HasIndex(request => new
@@ -20,7 +25,8 @@ namespace BankEmulatorDB
                 });
 
                 builder.Property(request => request.Balance)
-                    .HasColumnType("decimal(19,4)");
+                    .HasColumnType("decimal(19,4)")
+                    .HasDefaultValue(0);
 
                 builder.Property(request => request.CreatedDate)
                     .HasColumnType("datetime2")
