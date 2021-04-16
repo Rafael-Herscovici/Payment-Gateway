@@ -21,7 +21,7 @@ namespace PaymentGatewayAPI.Models
         public decimal Amount { get; set; }
 
         // Dev Note: in a real world app, we probably would have dictionary with the available currencies
-        // and would use validation to validate the user input is a valid currency.
+        // and would validate the user input is a valid currency.
 
         /// <summary>
         /// The currency to charge in (3 letter ISO 4217 code)

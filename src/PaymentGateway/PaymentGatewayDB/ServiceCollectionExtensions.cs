@@ -10,10 +10,10 @@ namespace PaymentGatewayDB
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString(nameof(PaymentGatewayDB));
             services.AddDbContext<PaymentGatewayDbContext>(options =>
-                options.UseSqlServer(connectionString, x => 
-                    x.MigrationsAssembly(nameof(PaymentGatewayDB))));
+                options.UseSqlServer(
+                    configuration.GetConnectionString(nameof(PaymentGatewayDB)),
+                    x => x.MigrationsAssembly(nameof(PaymentGatewayDB))));
             return services;
         }
     }

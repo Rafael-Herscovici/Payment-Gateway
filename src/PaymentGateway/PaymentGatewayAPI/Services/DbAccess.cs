@@ -1,9 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayDB;
 using PaymentGatewayDB.Entities;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -17,18 +18,22 @@ namespace PaymentGatewayAPI.Services
     {
         private readonly ILogger<DbAccess> _logger;
         private readonly PaymentGatewayDbContext _dbContext;
+        private readonly Encryption _encryption;
 
         /// <summary>
         /// Provides database access for the payment gateway api
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="dbContext"></param>
+        /// <param name="logger">A logger</param>
+        /// <param name="dbContext">The dbcontext</param>
+        /// <param name="encryption">Encryption service</param>
         public DbAccess(
             ILogger<DbAccess> logger,
-            PaymentGatewayDbContext dbContext)
+            PaymentGatewayDbContext dbContext,
+            Encryption encryption)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _encryption = encryption;
         }
 
         /// <summary>
@@ -38,16 +43,15 @@ namespace PaymentGatewayAPI.Services
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to abort the request.</param>
         public virtual async Task ProcessPaymentAsync(
             PaymentRequestModel paymentRequestModel,
-            CancellationToken   cancellationToken)
+            CancellationToken cancellationToken)
         {
-            // Dev note: i normally use AutoMapper for mapping models to entities and vice versa,
-            // Since not many entities/models are included in this task, i skipped it.
+            // Dev note: Model mappings should have a class of their own (or use Automapper)
             var paymentRequestEntity = new PaymentRequestEntity
             {
                 MerchantId = paymentRequestModel.MerchantId,
                 Amount = paymentRequestModel.Amount,
-                Currency =  paymentRequestModel.Currency,
-                CardDetails = ""
+                Currency = paymentRequestModel.Currency,
+                CardDetails = _encryption.Encrypt(JsonConvert.SerializeObject(paymentRequestModel))
             };
             await _dbContext.AddAsync(paymentRequestEntity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);

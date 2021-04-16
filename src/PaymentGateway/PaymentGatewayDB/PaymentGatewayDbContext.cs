@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PaymentGatewayDB.Entities;
 
 namespace PaymentGatewayDB
@@ -10,10 +14,25 @@ namespace PaymentGatewayDB
     {
         public PaymentGatewayDbContext(DbContextOptions<PaymentGatewayDbContext> options) : base(options) { }
 
-        /// <summary>
-        /// Existing payments
-        /// </summary>
         public DbSet<PaymentRequestEntity> PaymentRequests { get; set; }
+
+        /// <summary>
+        /// Override save changes for automatic population of update date
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public override Task<int> SaveChangesAsync(
+            bool acceptAllChangesOnSuccess,
+            CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Modified)
+                .ToList()
+                .ForEach(e => e.Property("UpdatedDate").CurrentValue = DateTime.UtcNow);
+
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,12 +46,21 @@ namespace PaymentGatewayDB
                 builder.Property(request => request.MerchantId)
                     .ValueGeneratedNever();
                 builder.Property(request => request.CardDetails)
+                    .HasColumnType("varchar(max)")
                     .IsRequired();
                 builder.Property(request => request.Amount)
                     .HasColumnType("decimal(18,4)");
                 builder.Property(request => request.Currency)
                     .HasColumnType("char(3)")
                     .IsRequired();
+                
+                builder.Property(x => x.CreatedDate)
+                    .HasColumnType("datetime2")
+                    .HasDefaultValueSql("GETUTCDATE()")
+                    .ValueGeneratedOnAdd();
+                builder.Property(x => x.UpdatedDate)
+                    .HasColumnType("datetime2")
+                    .ValueGeneratedNever();
             });
         }
     }

@@ -10,8 +10,8 @@ using PaymentGatewayDB;
 namespace PaymentGatewayDB.Migrations
 {
     [DbContext(typeof(PaymentGatewayDbContext))]
-    [Migration("20210415090133_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210416071003_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace PaymentGatewayDB.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PaymentGatewayDB.Entities.PaymentRequest", b =>
+            modelBuilder.Entity("PaymentGatewayDB.Entities.PaymentRequestEntity", b =>
                 {
                     b.Property<Guid>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -32,7 +32,12 @@ namespace PaymentGatewayDB.Migrations
 
                     b.Property<string>("CardDetails")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -40,6 +45,9 @@ namespace PaymentGatewayDB.Migrations
 
                     b.Property<Guid>("MerchantId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PaymentId");
 

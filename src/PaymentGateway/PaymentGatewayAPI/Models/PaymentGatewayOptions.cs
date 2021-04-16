@@ -1,4 +1,6 @@
-﻿namespace PaymentGatewayAPI.Models
+﻿using Microsoft.OpenApi.Models;
+
+namespace PaymentGatewayAPI.Models
 {
     /// <summary>
     /// Payment gateway options
@@ -6,8 +8,8 @@
     public class PaymentGatewayOptions
     {
         /// <summary>
-        /// The payment gateway db connection string
+        /// The aes key used for encrypt/decrypt
         /// </summary>
-        public string ConnectionString { get; set; } = null!;
+        public string AesEncryptionKey { get; set; } = null!;
     }
 }

@@ -19,10 +19,6 @@ namespace PaymentGatewayAPI.Controllers
         public PaymentController(ILogger<PaymentController> logger)
         {
             _logger = logger;
-
-            // Dev note: This will throw an exception anywhere down the pipeline if cancellation was requested.
-            // We have the operation cancelled exception filter to handle those.
-            HttpContext.RequestAborted.ThrowIfCancellationRequested();
         }
 
         /// <summary>
@@ -44,6 +40,10 @@ namespace PaymentGatewayAPI.Controllers
                 _logger.LogInformation($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");
                 return BadRequest(ModelState);
             }
+
+            // Dev note: This will throw an exception anywhere down the pipeline if cancellation was requested.
+            // We have the operation cancelled exception middleware to handle those.
+            HttpContext.RequestAborted.ThrowIfCancellationRequested();
 
             await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted);
 
