@@ -14,8 +14,8 @@ namespace PaymentGatewayAPI.Models
         /// <inheritdoc cref="IPaymentResponse"/>
         public PaymentStatus Status { get; set; }
         /// <summary>
-        /// The Masked card number used for payment
+        /// Masked values of card details
         /// </summary>
-        public string CardNumber { get; set; }
+        public CardDetails CardDetails { get; set; } = null!;
     }
 }

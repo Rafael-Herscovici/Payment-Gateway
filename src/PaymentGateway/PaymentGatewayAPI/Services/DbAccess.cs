@@ -76,9 +76,9 @@ namespace PaymentGatewayAPI.Services
             // Dev note: we could implement Null object pattern on paymentHistoric
             if (paymentEntity == null)
                 return null;
-            var cardNumber = JsonConvert.DeserializeObject<CardDetails>(
-                    _encryption.Decrypt(paymentEntity.CardDetails))
-                .CardNumber;
+
+            var cardDetails = JsonConvert.DeserializeObject<CardDetails>(
+                _encryption.Decrypt(paymentEntity.CardDetails));
             return new PaymentHistoric
             {
                 PaymentId = paymentEntity.PaymentId,
@@ -86,11 +86,27 @@ namespace PaymentGatewayAPI.Services
                 MerchantId = paymentEntity.MerchantId,
                 Amount = paymentEntity.Amount,
                 Currency = paymentEntity.Currency,
-                CardNumber = string.Concat(
-                    new string('*', 12),
-                    cardNumber.Substring(12)
-                )
+                CardDetails = new CardDetails
+                {
+                    CardNumber = MaskValue(cardDetails.CardNumber, 12),
+                    // Dev note: am not sure why we return these two, they could be ommited
+                    CardExpiryDate = MaskExpiryDate(cardDetails.CardExpiryDate),
+                    CardSecurityCode = MaskValue(cardDetails.CardSecurityCode, 3)
+                }
             };
+
+            string MaskExpiryDate(string str)
+            {
+                if (string.IsNullOrEmpty(str) || str.Length != 5 || !str.Contains('-'))
+                    return str;
+                var split = str.Split('-');
+                return $"{MaskValue(split[0], 2)}-{MaskValue(split[1], 2)}";
+            }
+
+            static string MaskValue(string str, int maskCount) =>
+                string.IsNullOrEmpty(str) || str.Length < maskCount
+                    ? str
+                    : string.Concat(new string('*', maskCount), str.Substring(maskCount));
         }
     }
 }
