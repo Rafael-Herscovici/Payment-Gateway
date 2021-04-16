@@ -22,6 +22,7 @@ namespace PaymentGatewayAPI.Services
         private readonly PaymentGatewayDbContext _dbContext;
         private readonly Encryption _encryption;
 
+
         /// <summary>
         /// Provides database access for the payment gateway api
         /// </summary>
@@ -95,18 +96,18 @@ namespace PaymentGatewayAPI.Services
                 }
             };
 
-            string MaskExpiryDate(string str)
+            static string MaskExpiryDate(string str)
             {
-                if (string.IsNullOrEmpty(str) || str.Length != 5 || !str.Contains('-'))
+                if (string.IsNullOrEmpty(str) || str.Length != 5 || !str.Contains(Constants.DateSeparator))
                     return str;
-                var split = str.Split('-');
-                return $"{MaskValue(split[0], 2)}-{MaskValue(split[1], 2)}";
+                var split = str.Split(Constants.DateSeparator);
+                return $"{MaskValue(split[0], 2)}{Constants.DateSeparator}{MaskValue(split[1], 2)}";
             }
 
             static string MaskValue(string str, int maskCount) =>
                 string.IsNullOrEmpty(str) || str.Length < maskCount
                     ? str
-                    : string.Concat(new string('*', maskCount), str.Substring(maskCount));
+                    : string.Concat(new string(Constants.MaskCharacter, maskCount), str.Substring(maskCount));
         }
     }
 }
