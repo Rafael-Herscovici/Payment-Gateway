@@ -14,7 +14,7 @@ namespace PaymentGatewayDB
     {
         public PaymentGatewayDbContext(DbContextOptions<PaymentGatewayDbContext> options) : base(options) { }
 
-        public DbSet<PaymentRequestEntity> PaymentRequests { get; set; }
+        public DbSet<PaymentRequestEntity> PaymentRequests { get; set; } = null!;
 
         /// <summary>
         /// Override save changes for automatic population of update date

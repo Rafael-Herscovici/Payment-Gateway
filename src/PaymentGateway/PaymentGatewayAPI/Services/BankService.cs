@@ -21,6 +21,7 @@ namespace PaymentGatewayAPI.Services
     /// <inheritdoc cref="IBankService"/>
     public class BankService : IBankService
     {
+        /// <inheritdoc />
         public PaymentStatus ProcessPayment(Guid userId, decimal amount, string currency)
         {
             return PaymentStatus.Success;
