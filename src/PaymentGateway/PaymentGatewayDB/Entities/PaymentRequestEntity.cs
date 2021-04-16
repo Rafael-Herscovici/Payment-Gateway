@@ -1,6 +1,7 @@
 ﻿using PaymentGatewayDB.Migrations;
 using System;
 using System.ComponentModel.DataAnnotations;
+using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayDB.Entities
 {
@@ -13,5 +14,6 @@ namespace PaymentGatewayDB.Entities
         // Dev note: there is not EF way to force a value
         [Required(AllowEmptyStrings = false)]
         public string CardDetails { get; set; }
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.None;
     }
 }

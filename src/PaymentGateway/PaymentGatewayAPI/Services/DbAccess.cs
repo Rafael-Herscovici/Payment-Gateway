@@ -6,7 +6,7 @@ using PaymentGatewayDB.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using PaymentGatewayAPI.Enums;
+using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -53,7 +53,8 @@ namespace PaymentGatewayAPI.Services
                 MerchantId = paymentRequestModel.MerchantId,
                 Amount = paymentRequestModel.Amount,
                 Currency = paymentRequestModel.Currency,
-                CardDetails = _encryption.Encrypt(JsonConvert.SerializeObject(paymentRequestModel))
+                CardDetails = _encryption.Encrypt(JsonConvert.SerializeObject(paymentRequestModel.CardDetails)),
+                PaymentStatus = PaymentStatus.Success
             };
             await _dbContext.AddAsync(paymentRequestEntity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -61,6 +62,34 @@ namespace PaymentGatewayAPI.Services
             {
                 PaymentId = paymentRequestEntity.PaymentId,
                 Status = PaymentStatus.Success
+            };
+        }
+
+        /// <summary>
+        /// Gets an historic payment by id
+        /// </summary>
+        /// <param name="paymentId">The payment id</param>
+        /// <returns>A <see cref="PaymentHistoric"/> model.</returns>
+        public virtual async Task<PaymentHistoric?> GetPaymentByIdAsync(Guid paymentId)
+        {
+            var paymentEntity = await _dbContext.PaymentRequests.FindAsync(paymentId);
+            // Dev note: we could implement Null object pattern on paymentHistoric
+            if (paymentEntity == null)
+                return null;
+            var cardNumber = JsonConvert.DeserializeObject<CardDetails>(
+                    _encryption.Decrypt(paymentEntity.CardDetails))
+                .CardNumber;
+            return new PaymentHistoric
+            {
+                PaymentId = paymentEntity.PaymentId,
+                Status = paymentEntity.PaymentStatus,
+                MerchantId = paymentEntity.MerchantId,
+                Amount = paymentEntity.Amount,
+                Currency = paymentEntity.Currency,
+                CardNumber = string.Concat(
+                    new string('*', 12),
+                    cardNumber.Substring(12)
+                )
             };
         }
     }

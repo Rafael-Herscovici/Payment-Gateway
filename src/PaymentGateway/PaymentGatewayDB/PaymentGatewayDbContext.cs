@@ -53,12 +53,14 @@ namespace PaymentGatewayDB
                 builder.Property(request => request.Currency)
                     .HasColumnType("char(3)")
                     .IsRequired();
-                
-                builder.Property(x => x.CreatedDate)
+                builder.Property(request => request.PaymentStatus)
+                    .IsRequired();
+
+                builder.Property(request => request.CreatedDate)
                     .HasColumnType("datetime2")
                     .HasDefaultValueSql("GETUTCDATE()")
                     .ValueGeneratedOnAdd();
-                builder.Property(x => x.UpdatedDate)
+                builder.Property(request => request.UpdatedDate)
                     .HasColumnType("datetime2")
                     .ValueGeneratedNever();
             });

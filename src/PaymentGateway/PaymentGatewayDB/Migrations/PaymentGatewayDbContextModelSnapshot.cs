@@ -44,6 +44,9 @@ namespace PaymentGatewayDB.Migrations
                     b.Property<Guid>("MerchantId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 

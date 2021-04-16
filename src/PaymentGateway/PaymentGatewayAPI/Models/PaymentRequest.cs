@@ -1,34 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PaymentGatewayAPI.Models
 {
     /// <summary>
     /// A payment request model
     /// </summary>
-    public class PaymentRequest
+    public class PaymentRequest : PaymentBase
     {
-        /// <summary>
-        /// The merchant id of the payment request
-        /// </summary>
-        [Required]
-        public Guid MerchantId { get; set; }
-
-        /// <summary>
-        /// The amount to charge
-        /// </summary>
-        [Required]
-        public decimal Amount { get; set; }
-
-        // Dev Note: in a real world app, we probably would have dictionary with the available currencies
-        // and would validate the user input is a valid currency.
-
-        /// <summary>
-        /// The currency to charge in (3 letter ISO 4217 code)
-        /// </summary>
-        [Required, StringLength(maximumLength: 3, MinimumLength = 3)]
-        public string Currency { get; set; } = null!;
-
         /// <summary>
         /// The card details used in this transaction
         /// </summary>

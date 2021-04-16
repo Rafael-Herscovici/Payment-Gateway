@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
@@ -22,18 +23,42 @@ namespace PaymentGatewayAPI.Controllers
         }
 
         /// <summary>
+        /// Get a payment by its id
+        /// </summary>
+        /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
+        /// <param name="paymentId"></param>
+        /// <returns>
+        ///     <see cref="PaymentHistoric"/> when processed successfully
+        ///     <see cref="NotFoundResult"/> result when validation fails
+        /// </returns>
+        [HttpGet]
+        public async Task<ActionResult<PaymentHistoric>> GetPaymentById(
+            [FromServices] DbAccess dbAccess,
+            Guid paymentId)
+        {
+            var paymentHistoric = await dbAccess.GetPaymentByIdAsync(paymentId);
+            if (paymentHistoric == null)
+                return NotFound(new ProblemDetails
+                {
+                    Title = $"The requested Payment id could not be found."
+                });
+
+            return Ok(paymentHistoric);
+        }
+
+        /// <summary>
         /// Process a payment on a merchant behalf.
         /// </summary>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
         /// <param name="paymentRequest">a <see cref="PaymentRequest"/> model.</param>
         /// <returns>
-        ///     <see cref="OkResult"/> when processed successfully
+        ///     <see cref="PaymentResponse"/> when processed successfully
         ///     <see cref="BadRequestResult"/> result when validation fails
         /// </returns>
         [HttpPost]
         public async Task<ActionResult<PaymentResponse>> ProcessPaymentAsync(
             [FromServices] DbAccess dbAccess,
-            [FromBody]     PaymentRequest paymentRequest)
+            [FromBody] PaymentRequest paymentRequest)
         {
             if (!ModelState.IsValid)
             {

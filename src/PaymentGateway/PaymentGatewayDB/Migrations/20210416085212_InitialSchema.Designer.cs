@@ -10,7 +10,7 @@ using PaymentGatewayDB;
 namespace PaymentGatewayDB.Migrations
 {
     [DbContext(typeof(PaymentGatewayDbContext))]
-    [Migration("20210416071003_InitialSchema")]
+    [Migration("20210416085212_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace PaymentGatewayDB.Migrations
 
                     b.Property<Guid>("MerchantId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");

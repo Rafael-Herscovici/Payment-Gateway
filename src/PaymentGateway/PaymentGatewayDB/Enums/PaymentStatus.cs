@@ -1,4 +1,4 @@
-﻿namespace PaymentGatewayAPI.Enums
+﻿namespace PaymentGatewayDB.Enums
 {
     /// <summary>
     ///  An enum definition for Payment status
