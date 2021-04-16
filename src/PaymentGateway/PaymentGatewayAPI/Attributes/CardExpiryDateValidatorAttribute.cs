@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Common;
 
 namespace PaymentGatewayAPI.Attributes
 {

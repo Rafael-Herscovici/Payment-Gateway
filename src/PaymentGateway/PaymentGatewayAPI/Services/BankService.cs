@@ -23,7 +23,7 @@ namespace PaymentGatewayAPI.Services
     {
         public PaymentStatus ProcessPayment(Guid userId, decimal amount, string currency)
         {
-            
+            return PaymentStatus.Success;
         }
     }
 }

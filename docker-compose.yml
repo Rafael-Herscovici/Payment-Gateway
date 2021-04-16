@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  paymentgatewayapi:
+    image: ${DOCKER_REGISTRY-}paymentgatewayapi
+    build:
+      context: .
+      dockerfile: src/PaymentGateway/PaymentGatewayAPI/Dockerfile
+
+  bankemulator:
+    image: ${DOCKER_REGISTRY-}bankemulator
+    build:
+      context: .
+      dockerfile: 3thParty/BankEmulator/Dockerfile
+
