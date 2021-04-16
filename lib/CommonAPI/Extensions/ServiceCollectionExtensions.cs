@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using CommonAPI.HostedServices;
+﻿using CommonAPI.HostedServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
+using System;
+using System.IO;
 
 namespace CommonAPI.Extensions
 {
@@ -18,6 +17,7 @@ namespace CommonAPI.Extensions
             where TStartup : class
             where TDbContext : DbContext
         {
+            var startupType = typeof(TStartup);
             var dbContextType = typeof(TDbContext);
             services
                 .AddDbContext<TDbContext>(options =>
@@ -30,11 +30,11 @@ namespace CommonAPI.Extensions
                     var openApiInfo = configuration.GetSection(nameof(OpenApiInfo)).Get<OpenApiInfo>();
                     c.SwaggerDoc(openApiInfo.Version, openApiInfo);
                     // Set the comments path for the Swagger JSON and UI.
-                    var xmlFile = $"{typeof(TStartup).Namespace}.xml";
+                    var xmlFile = $"{startupType.Namespace}.xml";
                     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                     c.IncludeXmlComments(xmlPath, true);
                 })
-                .AddAutoMapper(typeof(TStartup))
+                .AddAutoMapper(startupType)
                 .AddSwaggerGenNewtonsoftSupport()
                 .AddControllers()
                 .AddNewtonsoftJson(options =>

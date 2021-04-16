@@ -20,7 +20,7 @@ namespace BankEmulatorAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDefaultServices<BankEmulatorDbContext>(Configuration);
+            services.AddDefaultServices<Startup, BankEmulatorDbContext>(Configuration);
             services.Configure<BankEmulatorOptions>(Configuration.GetSection(nameof(BankEmulatorOptions)));
         }
 

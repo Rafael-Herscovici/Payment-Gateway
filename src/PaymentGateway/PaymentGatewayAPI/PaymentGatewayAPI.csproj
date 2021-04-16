@@ -5,15 +5,10 @@
     <UserSecretsId>b919e301-f158-4b67-82be-e287f046a589</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <!-- Swagger -->
-  <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
