@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayDB;
 using PaymentGatewayDB.Entities;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PaymentGatewayDB.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -20,22 +19,22 @@ namespace PaymentGatewayAPI.Services
     {
         private readonly ILogger<DbAccess> _logger;
         private readonly PaymentGatewayDbContext _dbContext;
-        private readonly Encryption _encryption;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Provides database access for the payment gateway api
         /// </summary>
         /// <param name="logger">A logger</param>
-        /// <param name="dbContext">The dbcontext</param>
-        /// <param name="encryption">Encryption service</param>
+        /// <param name="dbContext">The db context</param>
+        /// <param name="mapper">Mapper service</param>
         public DbAccess(
             ILogger<DbAccess> logger,
             PaymentGatewayDbContext dbContext,
-            Encryption encryption)
+            IMapper mapper)
         {
             _logger = logger;
             _dbContext = dbContext;
-            _encryption = encryption;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -45,68 +44,30 @@ namespace PaymentGatewayAPI.Services
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to abort the request.</param>
         public virtual async Task<PaymentResponse> ProcessPaymentAsync(
             PaymentRequest paymentRequestModel,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
-            // Dev note: Model mappings should have a class of their own (or use Automapper)
-            var paymentRequestEntity = new PaymentRequestEntity
-            {
-                MerchantId = paymentRequestModel.MerchantId,
-                Amount = paymentRequestModel.Amount,
-                Currency = paymentRequestModel.Currency,
-                CardDetails = _encryption.Encrypt(JsonConvert.SerializeObject(paymentRequestModel.CardDetails)),
-                PaymentStatus = PaymentStatus.Success
-            };
+            var paymentRequestEntity = _mapper.Map<PaymentRequestEntity>(paymentRequestModel);
             await _dbContext.AddAsync(paymentRequestEntity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return new PaymentResponse
-            {
-                PaymentId = paymentRequestEntity.PaymentId,
-                Status = PaymentStatus.Success
-            };
+            return _mapper.Map<PaymentResponse>(paymentRequestEntity);
         }
 
         /// <summary>
         /// Gets an historic payment by id
         /// </summary>
         /// <param name="paymentId">The payment id</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>A <see cref="PaymentHistoric"/> model.</returns>
-        public virtual async Task<PaymentHistoric?> GetPaymentByIdAsync(Guid paymentId)
+        public virtual async Task<PaymentHistoric?> GetPaymentByIdAsync(
+            Guid paymentId,
+            CancellationToken cancellationToken = default)
         {
             var paymentEntity = await _dbContext.PaymentRequests.FindAsync(paymentId);
             // Dev note: we could implement Null object pattern on paymentHistoric
             if (paymentEntity == null)
                 return null;
 
-            var cardDetails = JsonConvert.DeserializeObject<CardDetails>(
-                _encryption.Decrypt(paymentEntity.CardDetails));
-            return new PaymentHistoric
-            {
-                PaymentId = paymentEntity.PaymentId,
-                Status = paymentEntity.PaymentStatus,
-                MerchantId = paymentEntity.MerchantId,
-                Amount = paymentEntity.Amount,
-                Currency = paymentEntity.Currency,
-                CardDetails = new CardDetails
-                {
-                    CardNumber = MaskValue(cardDetails.CardNumber, 12),
-                    // Dev note: am not sure why we return these two, they could be ommited
-                    CardExpiryDate = MaskExpiryDate(cardDetails.CardExpiryDate),
-                    CardSecurityCode = MaskValue(cardDetails.CardSecurityCode, 3)
-                }
-            };
-
-            static string MaskExpiryDate(string str)
-            {
-                if (string.IsNullOrEmpty(str) || str.Length != 5 || !str.Contains(Constants.DateSeparator))
-                    return str;
-                var split = str.Split(Constants.DateSeparator);
-                return $"{MaskValue(split[0], 2)}{Constants.DateSeparator}{MaskValue(split[1], 2)}";
-            }
-
-            static string MaskValue(string str, int maskCount) =>
-                string.IsNullOrEmpty(str) || str.Length < maskCount
-                    ? str
-                    : string.Concat(new string(Constants.MaskCharacter, maskCount), str.Substring(maskCount));
+            return _mapper.Map<PaymentHistoric>(paymentEntity);
         }
     }
 }

@@ -36,11 +36,15 @@ namespace PaymentGatewayAPI.Controllers
             [FromServices] DbAccess dbAccess,
             Guid paymentId)
         {
+            // Dev note: This endpoint allow to retriev ANY paymentId, since we have no secure way to authenticate the merchant
+            // We could implement authentication and then get the merchant id from the authenticated user and only provide payments
+            // that were created by that specific merchant.
+
             var paymentHistoric = await dbAccess.GetPaymentByIdAsync(paymentId);
             if (paymentHistoric == null)
                 return NotFound(new ProblemDetails
                 {
-                    Title = $"The requested Payment id could not be found."
+                    Title = "The requested Payment id could not be found."
                 });
 
             return Ok(paymentHistoric);

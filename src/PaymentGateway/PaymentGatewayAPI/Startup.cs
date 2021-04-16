@@ -1,7 +1,3 @@
-using System;
-using System.IO;
-using System.Reflection;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +11,9 @@ using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayDB;
 using Serilog;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace PaymentGatewayAPI
 {
@@ -30,6 +29,7 @@ namespace PaymentGatewayAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var executionAssembly = Assembly.GetExecutingAssembly();
             services.AddPaymentGatewayDb(Configuration);
             services.AddHostedService<DbMigrationHostedService>();
             services.AddControllers()
@@ -40,12 +40,12 @@ namespace PaymentGatewayAPI
                 var openApiInfo = Configuration.GetSection(nameof(OpenApiInfo)).Get<OpenApiInfo>();
                 c.SwaggerDoc(openApiInfo.Version, openApiInfo);
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFile = $"{executionAssembly.GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, true);
             });
             services.AddSwaggerGenNewtonsoftSupport();
-
+            services.AddAutoMapper(executionAssembly);
             services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
             services.AddScoped<DbAccess>();
             services.AddSingleton<Encryption>();
