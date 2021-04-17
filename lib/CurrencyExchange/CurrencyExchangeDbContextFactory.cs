@@ -1,6 +1,6 @@
 ﻿using Common.Generics;
 
-namespace CurrencyExchangeDB
+namespace CurrencyExchange
 {
     public class CurrencyExchangeDbContextFactory : DesignTimeDbContextFactory<CurrencyExchangeDbContext> { }
 }

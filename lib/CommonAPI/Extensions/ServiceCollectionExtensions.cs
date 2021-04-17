@@ -1,5 +1,6 @@
 ﻿using CommonAPI.HostedServices;
-using CurrencyExchangeDB;
+using CurrencyExchange;
+using CurrencyExchange.HostedServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

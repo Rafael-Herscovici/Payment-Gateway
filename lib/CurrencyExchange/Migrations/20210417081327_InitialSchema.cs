@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CurrencyExchangeDB.Migrations
+namespace CurrencyExchange.Migrations
 {
     public partial class InitialSchema : Migration
     {

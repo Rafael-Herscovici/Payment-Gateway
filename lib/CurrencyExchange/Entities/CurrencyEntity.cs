@@ -1,4 +1,4 @@
-﻿namespace CurrencyExchangeDB.Entities
+﻿namespace CurrencyExchange.Entities
 {
     public class CurrencyEntity
     {

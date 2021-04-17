@@ -17,6 +17,6 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CurrencyExchangeDB\CurrencyExchangeDB.csproj" />
+    <ProjectReference Include="..\CurrencyExchange\CurrencyExchange.csproj" />
   </ItemGroup>
 </Project>

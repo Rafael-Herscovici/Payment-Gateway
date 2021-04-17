@@ -1,8 +1,8 @@
 ﻿using Common.Generics;
-using CurrencyExchangeDB.Entities;
+using CurrencyExchange.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CurrencyExchangeDB
+namespace CurrencyExchange
 {
     /// <summary>
     /// The currency exchange database context
