@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
 using AutoMapper;
 using BankEmulatorDB;
+using Common.Models;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BankEmulatorAPI.Services
 {
@@ -30,8 +32,21 @@ namespace BankEmulatorAPI.Services
             _mapper = mapper;
         }
 
-        public virtual async Task ProcessPaymentAsync()
+        public virtual async Task ProcessPaymentAsync(
+            PaymentRequest paymentRequest,
+            CancellationToken cancellationToken = default)
         {
+            var account = await _dbContext.Accounts.FindAsync(
+                paymentRequest.CardDetails.CardNumber,
+                paymentRequest.CardDetails.CardExpiryDate,
+                paymentRequest.CardDetails.CardSecurityCode);
+
+
+
+            if (account.Balance < paymentRequest.Amount)
+            {
+
+            }
 
         }
     }

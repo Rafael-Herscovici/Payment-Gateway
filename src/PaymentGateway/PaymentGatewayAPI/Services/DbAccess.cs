@@ -6,6 +6,7 @@ using PaymentGatewayDB.Entities;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Models;
 
 namespace PaymentGatewayAPI.Services
 {

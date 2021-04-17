@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Common.Models;
 
-namespace PaymentGatewayAPI.Models
+namespace Common.Models
 {
     /// <summary>
     /// A payment request model

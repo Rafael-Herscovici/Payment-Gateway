@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PaymentGatewayAPI.Models
+namespace Common.Models
 {
     /// <summary>
     /// A payment base model (shared)

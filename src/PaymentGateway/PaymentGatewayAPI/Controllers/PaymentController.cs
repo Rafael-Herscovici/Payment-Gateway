@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
 using System.Threading.Tasks;
+using Common.Models;
 
 namespace PaymentGatewayAPI.Controllers
 {

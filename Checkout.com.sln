@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solution", "_solution", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAPI", "lib\CommonAPI\CommonAPI.csproj", "{A6220215-B163-44EF-B026-F0BFA8F63E36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeDB", "lib\CurrencyExchangeDB\CurrencyExchangeDB.csproj", "{AF2856F0-C231-47E0-928B-119212A0B995}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{A6220215-B163-44EF-B026-F0BFA8F63E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6220215-B163-44EF-B026-F0BFA8F63E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6220215-B163-44EF-B026-F0BFA8F63E36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2856F0-C231-47E0-928B-119212A0B995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2856F0-C231-47E0-928B-119212A0B995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2856F0-C231-47E0-928B-119212A0B995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2856F0-C231-47E0-928B-119212A0B995}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{E01057C6-76F2-43A9-B943-3CDACBA17A80} = {BDA78E42-1F8C-4AAE-AC51-BC00DEF355DC}
 		{52983FA6-D25F-47C8-834C-1C3B1F0B7FF4} = {E01057C6-76F2-43A9-B943-3CDACBA17A80}
 		{A6220215-B163-44EF-B026-F0BFA8F63E36} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
+		{AF2856F0-C231-47E0-928B-119212A0B995} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0B2311C-C9C4-42ED-976A-A72066F725CE}
