@@ -64,32 +64,44 @@ namespace CurrencyExchange.HostedServices
             _logger.LogInformation(
                 "{ServiceName} Service is working. Count: {Count}", ServiceName, count);
 
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            var response = client.GetAsync(ExternalServiceUri, cancellationToken).Result;
-
-            response.EnsureSuccessStatusCode();
-
-            var xmlSerializer = new XmlSerializer(typeof(Envelope));
-            var stringResult = await response.Content.ReadAsStreamAsync();
-            var xmlObj = (Envelope)xmlSerializer.Deserialize(stringResult);
-            using var scope = _serviceProvider.CreateScope();
-            var currencyExchangeDbContext =
-                scope.ServiceProvider.GetRequiredService<CurrencyExchangeDbContext>();
-            foreach (var entry in xmlObj.Cube.Cube1.Cube)
+            try
             {
-                var existingCurrency = await currencyExchangeDbContext.Currencies.FindAsync(new object[] { entry.currency }, cancellationToken);
-                if (existingCurrency == null)
-                    currencyExchangeDbContext.Add(new CurrencyEntity
-                    {
-                        Currency = entry.currency,
-                        Rate = entry.rate
-                    });
-                else
-                    existingCurrency.Rate = entry.rate;
-            }
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+                var response = client.GetAsync(ExternalServiceUri, cancellationToken).Result;
 
-            await currencyExchangeDbContext.SaveChangesAsync(cancellationToken);
+                response.EnsureSuccessStatusCode();
+
+                var xmlSerializer = new XmlSerializer(typeof(Envelope));
+                var stringResult = await response.Content.ReadAsStreamAsync();
+                var xmlObj = (Envelope) xmlSerializer.Deserialize(stringResult);
+                using var scope = _serviceProvider.CreateScope();
+                var currencyExchangeDbContext =
+                    scope.ServiceProvider.GetRequiredService<CurrencyExchangeDbContext>();
+                foreach (var entry in xmlObj.Cube.Cube1.Cube)
+                {
+                    var existingCurrency =
+                        await currencyExchangeDbContext.Currencies.FindAsync(new object[] {entry.currency},
+                            cancellationToken);
+                    if (existingCurrency == null)
+                        currencyExchangeDbContext.Add(new CurrencyEntity
+                        {
+                            Currency = entry.currency,
+                            Rate = entry.rate
+                        });
+                    else
+                        existingCurrency.Rate = entry.rate;
+                }
+
+                await currencyExchangeDbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)  when (
+                ex is HttpRequestException ||
+                ex is TaskCanceledException)
+            {
+                // Dev note: we swallow these exceptions since we want the program to keep running and retry.
+                _logger.LogError(ex, "Failed to connect or timed out... will retry.");
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
