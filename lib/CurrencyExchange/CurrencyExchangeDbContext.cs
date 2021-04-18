@@ -25,6 +25,11 @@ namespace CurrencyExchange
 
                 builder.Property(currency => currency.Rate)
                     .HasColumnType("decimal(19,4)");
+
+                builder.Property(request => request.CreatedDate)
+                    .HasColumnType("datetime2");
+                builder.Property(request => request.UpdatedDate)
+                    .HasColumnType("datetime2");
             });
         }
     }

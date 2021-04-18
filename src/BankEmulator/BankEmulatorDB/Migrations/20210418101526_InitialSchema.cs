@@ -16,8 +16,8 @@ namespace BankEmulatorDB.Migrations
                     CardExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CardSecurityCode = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(19,4)", nullable: false, defaultValue: 0m),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

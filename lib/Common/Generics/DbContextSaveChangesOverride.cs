@@ -13,22 +13,45 @@ namespace Common.Generics
         public DbContextSaveChangesOverride() { }
         public DbContextSaveChangesOverride(DbContextOptions<TDbContext> options) : base(options) { }
 
-        /// <summary>
-        /// Override save changes for automatic population of update date
-        /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public override Task<int> SaveChangesAsync(
-            bool acceptAllChangesOnSuccess,
-            CancellationToken cancellationToken = default)
+        public override int SaveChanges()
         {
-            ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Modified)
-                .ToList()
-                .ForEach(e => e.Property(nameof(BaseEntity.UpdatedDate)).CurrentValue = DateTime.UtcNow);
+            SetDates();
+            return base.SaveChanges();
+        }
 
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetDates();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            SetDates();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void SetDates()
+        {
+            var utcNow = DateTime.UtcNow;
+            ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntity && (
+                                e.State == EntityState.Added
+                                || e.State == EntityState.Modified))
+                .ToList()
+                .ForEach(entityEntry =>
+                {
+                    switch (entityEntry.State)
+                    {
+                        case EntityState.Modified:
+                            ((BaseEntity)entityEntry.Entity).UpdatedDate = utcNow;
+                            break;
+                        case EntityState.Added:
+                            ((BaseEntity)entityEntry.Entity).CreatedDate = utcNow;
+                            break;
+                    }
+                });
         }
     }
 }

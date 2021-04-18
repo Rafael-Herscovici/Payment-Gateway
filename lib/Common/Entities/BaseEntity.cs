@@ -4,7 +4,7 @@ namespace Common.Entities
 {
     public class BaseEntity
     {
-        public DateTime CreatedDate { get; }
-        public DateTime UpdatedDate { get; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 }

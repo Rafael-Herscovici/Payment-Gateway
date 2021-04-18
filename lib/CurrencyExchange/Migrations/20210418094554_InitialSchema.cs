@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CurrencyExchange.Migrations
 {
@@ -11,7 +12,9 @@ namespace CurrencyExchange.Migrations
                 columns: table => new
                 {
                     Currency = table.Column<string>(type: "char(3)", nullable: false),
-                    Rate = table.Column<decimal>(type: "decimal(19,4)", nullable: false)
+                    Rate = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

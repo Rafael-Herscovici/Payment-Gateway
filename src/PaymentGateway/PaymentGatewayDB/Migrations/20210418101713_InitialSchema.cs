@@ -17,8 +17,8 @@ namespace PaymentGatewayDB.Migrations
                     Currency = table.Column<string>(type: "char(3)", nullable: false),
                     CardDetails = table.Column<string>(type: "varchar(max)", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -31,7 +31,7 @@ namespace CommonAPI.Extensions
                         x => x.MigrationsAssembly(typeof(CurrencyExchangeDbContext).Namespace)))
 
                 .AddHostedService<DbMigrationHostedService<TDbContext>>()
-                .AddHostedService<CurrencyExchangeHostedService<CurrencyExchangeDbContext>>()
+                .AddHostedService<CurrencyExchangeHostedService>()
 
                 .AddSwaggerGen(c =>
                 {

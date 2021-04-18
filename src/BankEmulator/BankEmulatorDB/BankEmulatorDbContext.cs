@@ -29,12 +29,9 @@ namespace BankEmulatorDB
                     .HasDefaultValue(0);
 
                 builder.Property(request => request.CreatedDate)
-                    .HasColumnType("datetime2")
-                    .HasDefaultValueSql("GETUTCDATE()")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("datetime2");
                 builder.Property(request => request.UpdatedDate)
-                    .HasColumnType("datetime2")
-                    .ValueGeneratedNever();
+                    .HasColumnType("datetime2");
             });
         }
     }
