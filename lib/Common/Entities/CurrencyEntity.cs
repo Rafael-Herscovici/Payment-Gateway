@@ -1,6 +1,4 @@
-﻿using Common.Entities;
-
-namespace CurrencyExchange.Entities
+﻿namespace Common.Entities
 {
     public class CurrencyEntity : BaseEntity
     {

@@ -14,7 +14,7 @@ namespace Common.Attributes
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var expiryDate = value?.ToString();
-            if (string.IsNullOrEmpty(expiryDate))
+            if (string.IsNullOrWhiteSpace(expiryDate))
                 return new ValidationResult(validationContext.DisplayName + " is required.");
 
             var pattern = @"^(0[1-9]|1[0-2])\" + Constants.DateSeparator + "?(([0-9]{2})$)";

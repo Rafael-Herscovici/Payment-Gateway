@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
+using System;
 using System.Threading.Tasks;
-using Common.Models;
 
 namespace PaymentGatewayAPI.Controllers
 {
@@ -65,6 +65,13 @@ namespace PaymentGatewayAPI.Controllers
             [FromServices] DbAccess dbAccess,
             [FromBody] PaymentRequest paymentRequest)
         {
+            // Validate currency
+            if (!await dbAccess.IsValidCurrencyAsync(paymentRequest.Currency))
+            {
+                var supportCurrencies = await dbAccess.GetSupportedCurrencies();
+                ModelState.AddModelError(nameof(paymentRequest.Currency), $"Invalid currency, supported currencies: {string.Join(",", supportCurrencies)}.");
+            }
+
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");

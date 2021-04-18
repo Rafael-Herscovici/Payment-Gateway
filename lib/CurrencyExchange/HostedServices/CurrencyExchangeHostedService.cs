@@ -1,17 +1,15 @@
-﻿using CurrencyExchange.Entities;
+﻿using Common.Entities;
 using CurrencyExchange.HostedServices.Schemas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace CurrencyExchange.HostedServices
 {

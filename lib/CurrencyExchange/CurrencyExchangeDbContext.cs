@@ -1,5 +1,5 @@
-﻿using Common.Generics;
-using CurrencyExchange.Entities;
+﻿using Common.Entities;
+using Common.Generics;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyExchange
