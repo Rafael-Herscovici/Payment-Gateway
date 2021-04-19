@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Globalization;
+using AutoMapper;
 using BankEmulatorDB;
 using Common;
 using Common.Enums;
@@ -7,6 +9,7 @@ using CurrencyExchange;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankEmulatorAPI.Services
 {
@@ -50,7 +53,12 @@ namespace BankEmulatorAPI.Services
             PaymentRequest paymentRequest,
             CancellationToken cancellationToken = default)
         {
-            var account = await _bankDbContext.Accounts.FindAsync(paymentRequest.CardDetails.CardNumber);
+            var expiryDate = DateTime.ParseExact(paymentRequest.CardDetails.CardExpiryDate, "MM-yy", CultureInfo.InvariantCulture);
+            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x =>
+                    x.CardNumber == paymentRequest.CardDetails.CardNumber
+                    && x.CardExpiryDate.Year == expiryDate.Year && x.CardExpiryDate.Month == expiryDate.Month
+                    && x.CardSecurityCode == int.Parse(paymentRequest.CardDetails.CardSecurityCode),
+                cancellationToken);
 
             // Dev note: We use the same status for invalid account and payment failed
             // Since we do not want to disclose if an account exists or not.

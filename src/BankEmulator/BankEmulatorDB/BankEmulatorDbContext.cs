@@ -1,4 +1,6 @@
-﻿using BankEmulatorDB.Entities;
+﻿using System;
+using System.Collections.Generic;
+using BankEmulatorDB.Entities;
 using Common.Generics;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +34,18 @@ namespace BankEmulatorDB
                     .HasColumnType("datetime2");
                 builder.Property(request => request.UpdatedDate)
                     .HasColumnType("datetime2");
+            });
+
+            // Initial seed
+            modelBuilder.Entity<AccountEntity>().HasData(new List<AccountEntity>
+            {
+                new AccountEntity
+                {
+                    CardNumber = "367839570755981",
+                    CardExpiryDate = new DateTime(2029,12,29),
+                    CardSecurityCode = 123,
+                    Balance = 1000
+                }
             });
         }
     }

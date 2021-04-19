@@ -11,6 +11,6 @@ namespace PaymentGatewayDB.Entities
         public decimal Amount { get; set; }
         public string Currency { get; set; } = null!;
         public string CardDetails { get; set; } = null!;
-        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Unknown;
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.None;
     }
 }

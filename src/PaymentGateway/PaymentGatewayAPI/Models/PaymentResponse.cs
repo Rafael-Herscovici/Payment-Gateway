@@ -31,6 +31,6 @@ namespace PaymentGatewayAPI.Models
         /// <inheritdoc cref="IPaymentResponse"/>
         [EnumDataType(typeof(PaymentStatus))]
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentStatus Status { get; set; } = PaymentStatus.Unknown;
+        public PaymentStatus Status { get; set; } = PaymentStatus.None;
     }
 }

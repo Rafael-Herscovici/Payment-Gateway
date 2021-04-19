@@ -1,6 +1,21 @@
 version: '3.4'
 
 services:
+
+  mssql:
+    hostname: msqsqlserver-docker
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SomeLongPasswordGoesHere3!
+    # Dev note: Could be used to persist the data, We want a fresh start with every 'boot'.
+    #volumes:
+      #- ./data:/var/opt/mssql/data
+
   paymentgatewayapi:
     hostname: paymentgatewayapi
     container_name: paymentgatewayapi
@@ -25,16 +40,3 @@ services:
      - ./build/secrets.env.dev
     depends_on:
     - mssql
-
-  mssql:
-    hostname: msqsqlserver-docker
-    restart: always
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    user: root
-    ports:
-      - 1433:1433
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=SomeLongPasswordGoesHere3!
-    #volumes:
-      #- ./data:/var/opt/mssql/data

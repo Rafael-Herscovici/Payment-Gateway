@@ -46,6 +46,16 @@ namespace BankEmulatorDB.Migrations
                     b.HasIndex("CardNumber", "CardExpiryDate", "CardSecurityCode");
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            CardNumber = "367839570755981",
+                            Balance = 1000m,
+                            CardExpiryDate = new DateTime(2029, 12, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CardSecurityCode = 123,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 #pragma warning restore 612, 618
         }
