@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CurrencyExchange.Migrations
 {
     [DbContext(typeof(CurrencyExchangeDbContext))]
-    [Migration("20210418094554_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20210419131930_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace CurrencyExchange.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CurrencyExchange.Entities.CurrencyEntity", b =>
+            modelBuilder.Entity("Common.Entities.CurrencyEntity", b =>
                 {
                     b.Property<string>("Currency")
                         .HasColumnType("char(3)");

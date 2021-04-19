@@ -11,8 +11,7 @@ namespace BankEmulatorDB.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    CardNumber = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CardNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CardExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CardSecurityCode = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(19,4)", nullable: false, defaultValue: 0m),

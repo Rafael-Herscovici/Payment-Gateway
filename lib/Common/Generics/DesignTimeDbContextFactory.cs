@@ -15,7 +15,7 @@ namespace Common.Generics
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString(typeof(TDbContext).Name));
+            optionsBuilder.UseSqlServer(configuration[typeof(TDbContext).Name]);
 
             return Activator.CreateInstance(typeof(TDbContext), optionsBuilder.Options) as TDbContext;
         }

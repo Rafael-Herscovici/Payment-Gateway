@@ -21,10 +21,8 @@ namespace BankEmulatorDB.Migrations
 
             modelBuilder.Entity("BankEmulatorDB.Entities.AccountEntity", b =>
                 {
-                    b.Property<int>("CardNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()

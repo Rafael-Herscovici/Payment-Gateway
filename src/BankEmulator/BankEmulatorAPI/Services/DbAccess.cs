@@ -25,7 +25,8 @@ namespace BankEmulatorAPI.Services
         /// Provides database access for the bank emulator api
         /// </summary>
         /// <param name="logger">A logger</param>
-        /// <param name="bankDbContext">The db context</param>
+        /// <param name="bankDbContext">The bank context</param>
+        /// <param name="exchangeDbContext">The exchange db context</param>
         /// <param name="mapper">Mapper service</param>
         public DbAccess(
             ILogger<DbAccess> logger,
@@ -49,10 +50,12 @@ namespace BankEmulatorAPI.Services
             PaymentRequest paymentRequest,
             CancellationToken cancellationToken = default)
         {
-            var account = await _bankDbContext.Accounts.FindAsync(
-                paymentRequest.CardDetails.CardNumber,
-                paymentRequest.CardDetails.CardExpiryDate,
-                paymentRequest.CardDetails.CardSecurityCode);
+            var account = await _bankDbContext.Accounts.FindAsync(paymentRequest.CardDetails.CardNumber);
+
+            // Dev note: We use the same status for invalid account and payment failed
+            // Since we do not want to disclose if an account exists or not.
+            if (account == null)
+                return PaymentStatus.Failed;
 
             var chargeAmount = paymentRequest.Amount;
 
@@ -68,11 +71,7 @@ namespace BankEmulatorAPI.Services
 
             return PaymentStatus.Success;
 
-            async Task<decimal> GetCurrencyRate(string currency)
-            {
-                var currencyEntity = await _exchangeDbContext.Currencies.FindAsync(currency);
-                return currencyEntity.Rate;
-            }
+            async Task<decimal> GetCurrencyRate(string currency) => (await _exchangeDbContext.Currencies.FindAsync(currency)).Rate;
         }
     }
 }

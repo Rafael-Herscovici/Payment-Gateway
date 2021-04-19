@@ -16,6 +16,6 @@
         /// <summary>
         /// Failed - Indicates a failed payment
         /// </summary>
-        Failed,
+        Failed
     }
 }

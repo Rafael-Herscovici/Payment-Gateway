@@ -3,6 +3,7 @@ version: '3.4'
 services:
   paymentgatewayapi:
     hostname: paymentgatewayapi
+    container_name: paymentgatewayapi
     image: ${DOCKER_REGISTRY-}paymentgatewayapi
     build:
       context: .
@@ -15,6 +16,7 @@ services:
 
   bankemulator:
     hostname: bankemulator
+    container_name: bankemulator
     image: ${DOCKER_REGISTRY-}bankemulator
     build:
       context: .
@@ -34,5 +36,5 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SomeLongPasswordGoesHere3!
-    volumes:
-      - ./data:/var/opt/mssql/data
+    #volumes:
+      #- ./data:/var/opt/mssql/data

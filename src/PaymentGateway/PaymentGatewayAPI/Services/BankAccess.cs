@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Common.Enums;
 using Common.Models;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Common.Enums;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Net.Mime;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -17,8 +20,9 @@ namespace PaymentGatewayAPI.Services
         /// Send a request to the bank to charge the user
         /// </summary>
         /// <param name="paymentRequest">A <see cref="PaymentRequest"/></param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A <see cref="PaymentStatus"/> indicating the result of trying to charge the account.</returns>
-        Task<PaymentStatus> ProcessPaymentAsync(PaymentRequest paymentRequest);
+        Task<PaymentStatus> ProcessPaymentAsync(PaymentRequest paymentRequest, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -39,12 +43,14 @@ namespace PaymentGatewayAPI.Services
         }
 
         /// <inheritdoc />
-        public async Task<PaymentStatus> ProcessPaymentAsync(PaymentRequest paymentRequest)
+        public async Task<PaymentStatus> ProcessPaymentAsync(
+            PaymentRequest paymentRequest,
+            CancellationToken cancellationToken = default)
         {
-            var stringContent = new StringContent(JsonConvert.SerializeObject(paymentRequest));
+            var stringContent = new StringContent(JsonConvert.SerializeObject(paymentRequest), Encoding.UTF8, MediaTypeNames.Application.Json);
             try
             {
-                var result = await _httpClient.PostAsync("/api/transaction", stringContent);
+                var result = await _httpClient.PostAsync("/api/transaction", stringContent, cancellationToken);
                 result.EnsureSuccessStatusCode();
                 return JsonConvert.DeserializeObject<PaymentStatus>(await result.Content.ReadAsStringAsync());
 

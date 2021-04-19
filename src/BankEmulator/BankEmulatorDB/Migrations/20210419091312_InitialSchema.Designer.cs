@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankEmulatorDB.Migrations
 {
     [DbContext(typeof(BankEmulatorDbContext))]
-    [Migration("20210418101526_InitialSchema")]
+    [Migration("20210419091312_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,10 +23,8 @@ namespace BankEmulatorDB.Migrations
 
             modelBuilder.Entity("BankEmulatorDB.Entities.AccountEntity", b =>
                 {
-                    b.Property<int>("CardNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()

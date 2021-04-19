@@ -10,7 +10,7 @@ using PaymentGatewayDB;
 namespace PaymentGatewayDB.Migrations
 {
     [DbContext(typeof(PaymentGatewayDbContext))]
-    [Migration("20210418101713_InitialSchema")]
+    [Migration("20210419091233_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

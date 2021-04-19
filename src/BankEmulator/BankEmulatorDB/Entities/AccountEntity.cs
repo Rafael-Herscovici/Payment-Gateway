@@ -5,7 +5,7 @@ namespace BankEmulatorDB.Entities
 {
     public class AccountEntity : BaseEntity
     {
-        public int CardNumber { get; set; }
+        public string CardNumber { get; set; } = null!;
         public DateTime CardExpiryDate { get; set; }
         public int CardSecurityCode { get; set; }
         public decimal Balance { get; set; }

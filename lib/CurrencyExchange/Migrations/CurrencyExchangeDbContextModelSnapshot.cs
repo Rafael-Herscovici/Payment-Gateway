@@ -19,7 +19,7 @@ namespace CurrencyExchange.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CurrencyExchange.Entities.CurrencyEntity", b =>
+            modelBuilder.Entity("Common.Entities.CurrencyEntity", b =>
                 {
                     b.Property<string>("Currency")
                         .HasColumnType("char(3)");
