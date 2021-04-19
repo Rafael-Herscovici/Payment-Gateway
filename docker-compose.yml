@@ -6,10 +6,30 @@ services:
     build:
       context: .
       dockerfile: src/PaymentGateway/PaymentGatewayAPI/Dockerfile
+    env_file:
+     - ./build/secrets.env.dev
+    depends_on:
+    - mssql
 
   bankemulator:
     image: ${DOCKER_REGISTRY-}bankemulator
     build:
       context: .
       dockerfile: src/BankEmulator/BankEmulatorAPI/Dockerfile
+    env_file:
+     - ./build/secrets.env.dev
+    depends_on:
+    - mssql
 
+  mssql:
+    hostname: msqsqlserver-docker
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SomeLongPasswordGoesHere3!
+    volumes:
+      - ./data:/var/opt/mssql/data

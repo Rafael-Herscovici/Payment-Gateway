@@ -30,7 +30,7 @@ namespace CommonAPI.Extensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", typeof(TClass).Namespace);
             });
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseSerilogRequestLogging();
 

@@ -23,11 +23,11 @@ namespace CommonAPI.Extensions
 
                 .AddDbContext<TDbContext>(options =>
                     options.UseSqlServer(
-                        configuration.GetConnectionString(typeof(TDbContext).Name),
+                        configuration.GetValue<string>(typeof(TDbContext).Name),
                         x => x.MigrationsAssembly(typeof(TDbContext).Namespace)))
                 .AddDbContext<CurrencyExchangeDbContext>(options =>
                     options.UseSqlServer(
-                        configuration.GetConnectionString(typeof(CurrencyExchangeDbContext).Name),
+                        configuration.GetValue<string>(typeof(CurrencyExchangeDbContext).Name),
                         x => x.MigrationsAssembly(typeof(CurrencyExchangeDbContext).Namespace)))
 
                 .AddHostedService<DbMigrationHostedService<TDbContext>>()

@@ -7,16 +7,20 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["3thParty/BankEmulator/BankEmulator.csproj", "3thParty/BankEmulator/"]
-RUN dotnet restore "3thParty/BankEmulator/BankEmulator.csproj"
+COPY ["src/BankEmulator/BankEmulatorAPI/BankEmulatorAPI.csproj", "src/BankEmulator/BankEmulatorAPI/"]
+COPY ["lib/CommonAPI/CommonAPI.csproj", "lib/CommonAPI/"]
+COPY ["lib/CurrencyExchange/CurrencyExchange.csproj", "lib/CurrencyExchange/"]
+COPY ["lib/Common/Common.csproj", "lib/Common/"]
+COPY ["src/BankEmulator/BankEmulatorDB/BankEmulatorDB.csproj", "src/BankEmulator/BankEmulatorDB/"]
+RUN dotnet restore "src/BankEmulator/BankEmulatorAPI/BankEmulatorAPI.csproj"
 COPY . .
-WORKDIR "/src/3thParty/BankEmulator"
-RUN dotnet build "BankEmulator.csproj" -c Release -o /app/build
+WORKDIR "/src/src/BankEmulator/BankEmulatorAPI"
+RUN dotnet build "BankEmulatorAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "BankEmulator.csproj" -c Release -o /app/publish
+RUN dotnet publish "BankEmulatorAPI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BankEmulator.dll"]
+ENTRYPOINT ["dotnet", "BankEmulatorAPI.dll"]

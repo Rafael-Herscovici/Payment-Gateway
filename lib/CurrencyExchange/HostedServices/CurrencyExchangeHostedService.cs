@@ -54,7 +54,7 @@ namespace CurrencyExchange.HostedServices
             }
 
             _timer = new Timer(obj => FetchCurrenciesAsync(obj, cancellationToken), null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(10));
+                TimeSpan.FromHours(6));
         }
 
         private async void FetchCurrenciesAsync(object? state, CancellationToken cancellationToken = default)

@@ -22,6 +22,9 @@ EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4230024C-54C0-4556-8D8B-4157EB981012}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8CB07CC9-54AF-49F2-A63E-DB90BA5DD27F}"
+	ProjectSection(SolutionItems) = preProject
+		build\secrets.env.dev = build\secrets.env.dev
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BankEmulator", "BankEmulator", "{E01057C6-76F2-43A9-B943-3CDACBA17A80}"
 EndProject

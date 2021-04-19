@@ -8,8 +8,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 COPY ["src/PaymentGateway/PaymentGatewayAPI/PaymentGatewayAPI.csproj", "src/PaymentGateway/PaymentGatewayAPI/"]
-COPY ["src/PaymentGateway/PaymentGatewayDB/PaymentGatewayDB.csproj", "src/PaymentGateway/PaymentGatewayDB/"]
+COPY ["lib/CommonAPI/CommonAPI.csproj", "lib/CommonAPI/"]
+COPY ["lib/CurrencyExchange/CurrencyExchange.csproj", "lib/CurrencyExchange/"]
 COPY ["lib/Common/Common.csproj", "lib/Common/"]
+COPY ["src/PaymentGateway/PaymentGatewayDB/PaymentGatewayDB.csproj", "src/PaymentGateway/PaymentGatewayDB/"]
 RUN dotnet restore "src/PaymentGateway/PaymentGatewayAPI/PaymentGatewayAPI.csproj"
 COPY . .
 WORKDIR "/src/src/PaymentGateway/PaymentGatewayAPI"
