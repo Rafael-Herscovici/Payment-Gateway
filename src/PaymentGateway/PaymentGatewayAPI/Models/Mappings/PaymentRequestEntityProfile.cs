@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Common;
-using Common.Enums;
 using Common.Models;
 using Newtonsoft.Json;
 using PaymentGatewayAPI.Services;
@@ -11,8 +10,12 @@ namespace PaymentGatewayAPI.Models.Mappings
 #pragma warning disable CS1591
     public class PaymentRequestEntityProfile : Profile
     {
-        public PaymentRequestEntityProfile()
+        private static Encryption _encryption = null!;
+
+        public PaymentRequestEntityProfile(Encryption encryption)
         {
+            _encryption = encryption;
+
             CreateMap<PaymentRequestEntity, PaymentResponse>()
                 .ForMember(x => x.PaymentId, opt =>
                     opt.MapFrom(x => x.PaymentId))
@@ -48,13 +51,6 @@ namespace PaymentGatewayAPI.Models.Mappings
 
         public class EncryptCardDetailsResolver : IValueResolver<PaymentRequest, PaymentRequestEntity, string>
         {
-            private readonly Encryption _encryption;
-
-            public EncryptCardDetailsResolver(Encryption encryption)
-            {
-                _encryption = encryption;
-            }
-
             public string Resolve(PaymentRequest source, PaymentRequestEntity destination, string member, ResolutionContext context)
             {
                 return _encryption.Encrypt(JsonConvert.SerializeObject(source.CardDetails));
@@ -63,13 +59,6 @@ namespace PaymentGatewayAPI.Models.Mappings
 
         public class MaskCardDetailsResolver : IValueResolver<PaymentRequestEntity, PaymentHistoric, CardDetails>
         {
-            private readonly Encryption _encryption;
-
-            public MaskCardDetailsResolver(Encryption encryption)
-            {
-                _encryption = encryption;
-            }
-
             public CardDetails Resolve(PaymentRequestEntity source, PaymentHistoric destination, CardDetails member, ResolutionContext context)
             {
                 var cardDetails = JsonConvert.DeserializeObject<CardDetails>(

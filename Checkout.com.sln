@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAPI", "lib\CommonAPI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyExchange", "lib\CurrencyExchange\CurrencyExchange.csproj", "{AF2856F0-C231-47E0-928B-119212A0B995}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.UnitTests", "test\PaymentGateway.UnitTests\PaymentGateway.UnitTests.csproj", "{58A6DB0E-4998-43B9-B81E-32928C5E17F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{AF2856F0-C231-47E0-928B-119212A0B995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF2856F0-C231-47E0-928B-119212A0B995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF2856F0-C231-47E0-928B-119212A0B995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A6DB0E-4998-43B9-B81E-32928C5E17F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A6DB0E-4998-43B9-B81E-32928C5E17F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A6DB0E-4998-43B9-B81E-32928C5E17F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A6DB0E-4998-43B9-B81E-32928C5E17F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{52983FA6-D25F-47C8-834C-1C3B1F0B7FF4} = {E01057C6-76F2-43A9-B943-3CDACBA17A80}
 		{A6220215-B163-44EF-B026-F0BFA8F63E36} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
 		{AF2856F0-C231-47E0-928B-119212A0B995} = {E11947B1-63A0-40D8-899C-8312AFE0B55F}
+		{58A6DB0E-4998-43B9-B81E-32928C5E17F9} = {178618C1-501F-47C6-AE9A-B27571DB7BE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0B2311C-C9C4-42ED-976A-A72066F725CE}

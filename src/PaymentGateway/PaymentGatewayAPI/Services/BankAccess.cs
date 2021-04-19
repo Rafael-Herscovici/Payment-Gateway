@@ -22,7 +22,7 @@ namespace PaymentGatewayAPI.Services
         /// <param name="paymentRequest">A <see cref="PaymentRequest"/></param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A <see cref="PaymentStatus"/> indicating the result of trying to charge the account.</returns>
-        Task<PaymentStatus> ProcessPaymentAsync(PaymentRequest paymentRequest, CancellationToken cancellationToken = default);
+        Task<PaymentStatus> ProcessPaymentAsync(PaymentRequest paymentRequest, CancellationToken cancellationToken);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace PaymentGatewayAPI.Services
         }
 
         /// <inheritdoc />
-        public async Task<PaymentStatus> ProcessPaymentAsync(
+        public virtual async Task<PaymentStatus> ProcessPaymentAsync(
             PaymentRequest paymentRequest,
             CancellationToken cancellationToken = default)
         {

@@ -1,4 +1,5 @@
-﻿using Common.Generics;
+﻿using System.Diagnostics.CodeAnalysis;
+using Common.Generics;
 using Microsoft.EntityFrameworkCore;
 using PaymentGatewayDB.Entities;
 
@@ -7,6 +8,7 @@ namespace PaymentGatewayDB
     /// <summary>
     /// The payment gateway's database context
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class PaymentGatewayDbContext : DbContextSaveChangesOverride<PaymentGatewayDbContext>
     {
         public PaymentGatewayDbContext() { }

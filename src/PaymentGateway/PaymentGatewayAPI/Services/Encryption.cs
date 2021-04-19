@@ -29,7 +29,7 @@ namespace PaymentGatewayAPI.Services
         /// A 128 bit random salt will be generated and prepended to the ciphertext before it is base64 encoded.
         /// </summary>
         /// <param name="plainText">The plain text to encrypt.</param>
-        /// <returns>The salt and the ciphertext, Base64 encoded for convenience.</returns>
+        /// <returns>The salt and the cipher text, Base64 encoded for convenience.</returns>
         public virtual string Encrypt(string plainText)
         {
             if (string.IsNullOrEmpty(plainText))

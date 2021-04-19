@@ -68,7 +68,7 @@ namespace PaymentGatewayAPI.Controllers
             // Validate currency
             if (!await dbAccess.IsValidCurrencyAsync(paymentRequest.Currency))
             {
-                var supportCurrencies = await dbAccess.GetSupportedCurrencies();
+                var supportCurrencies = await dbAccess.GetSupportedCurrenciesAsync();
                 ModelState.AddModelError(
                     nameof(paymentRequest.Currency),
                     $"Invalid currency, supported currencies: {string.Join(",", supportCurrencies)}.");

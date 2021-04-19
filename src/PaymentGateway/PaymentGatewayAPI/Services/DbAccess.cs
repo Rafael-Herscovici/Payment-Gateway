@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -25,10 +24,10 @@ namespace PaymentGatewayAPI.Services
     public class DbAccess
     {
         private readonly ILogger<DbAccess> _logger;
-        private readonly PaymentGatewayDbContext _gatewayDbContext;
-        private readonly CurrencyExchangeDbContext _exchangeDbContext;
         private readonly IMapper _mapper;
         private readonly IBankAccess _bankAccess;
+        private readonly PaymentGatewayDbContext _gatewayDbContext;
+        private readonly CurrencyExchangeDbContext _exchangeDbContext;
 
         /// <summary>
         /// Provides database access for the payment gateway api
@@ -41,15 +40,15 @@ namespace PaymentGatewayAPI.Services
         public DbAccess(
             ILogger<DbAccess> logger,
             IMapper mapper,
+            IBankAccess bankAccess,
             PaymentGatewayDbContext gatewayDbContext,
-            CurrencyExchangeDbContext currencyExchangeDbContext,
-            IBankAccess bankAccess)
+            CurrencyExchangeDbContext currencyExchangeDbContext)
         {
             _logger = logger;
             _mapper = mapper;
+            _bankAccess = bankAccess;
             _gatewayDbContext = gatewayDbContext;
             _exchangeDbContext = currencyExchangeDbContext;
-            _bankAccess = bankAccess;
         }
 
         /// <summary>
@@ -61,16 +60,12 @@ namespace PaymentGatewayAPI.Services
             PaymentRequest paymentRequestModel,
             CancellationToken cancellationToken = default)
         {
-            await using var transaction = _gatewayDbContext.Database.BeginTransaction();
             try
             {
                 var paymentRequestEntity = _mapper.Map<PaymentRequestEntity>(paymentRequestModel);
-
-                paymentRequestEntity.PaymentStatus = await _bankAccess.ProcessPaymentAsync(paymentRequestModel);
-
+                paymentRequestEntity.PaymentStatus = await _bankAccess.ProcessPaymentAsync(paymentRequestModel, cancellationToken);
                 await _gatewayDbContext.AddAsync(paymentRequestEntity, cancellationToken);
                 await _gatewayDbContext.SaveChangesAsync(cancellationToken);
-                transaction.Commit();
                 return _mapper.Map<PaymentResponse>(paymentRequestEntity);
             }
             catch (Exception ex)
@@ -98,16 +93,6 @@ namespace PaymentGatewayAPI.Services
         }
 
         /// <summary>
-        /// Get the available Currencies from the exchange
-        /// </summary>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to abort the request.</param>
-        /// <returns>A list of <see cref="CurrencyEntity"/></returns>
-        public virtual Task<List<CurrencyEntity>> GetCurrenciesAsync(CancellationToken cancellationToken = default)
-        {
-            return _exchangeDbContext.Currencies.ToListAsync(cancellationToken);
-        }
-
-        /// <summary>
         /// Check if a currency 3 char code is valid
         /// </summary>
         /// <param name="currency">The currency 3 letter code to check</param>
@@ -127,7 +112,7 @@ namespace PaymentGatewayAPI.Services
         /// </summary>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to abort the request.</param>
         /// <returns>a list of <see cref="CurrencyEntity"/></returns>
-        public virtual Task<List<string>> GetSupportedCurrencies(CancellationToken cancellationToken = default)
+        public virtual Task<List<string>> GetSupportedCurrenciesAsync(CancellationToken cancellationToken = default)
         {
             return _exchangeDbContext.Currencies.Select(x => x.Currency).ToListAsync(cancellationToken);
         }
