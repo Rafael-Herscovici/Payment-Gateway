@@ -1,3 +1,4 @@
+using System;
 using CommonAPI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayDB;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace PaymentGatewayAPI
 {
@@ -25,6 +28,12 @@ namespace PaymentGatewayAPI
             services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
             services.AddScoped<DbAccess>();
             services.AddSingleton<Encryption>();
+            services.AddHttpClient<IBankAccess, BankAccess>(client => client.BaseAddress = new Uri(Configuration["BankEmulatorAPI"]))
+                .AddPolicyHandler(requestMessage => HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

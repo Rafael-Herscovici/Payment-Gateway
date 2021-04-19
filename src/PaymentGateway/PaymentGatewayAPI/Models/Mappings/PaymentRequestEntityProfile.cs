@@ -41,7 +41,7 @@ namespace PaymentGatewayAPI.Models.Mappings
                 .ForMember(x => x.Currency, opt =>
                     opt.MapFrom(x => x.Currency))
                 .ForMember(x => x.PaymentStatus, opt =>
-                    opt.MapFrom(x => PaymentStatus.Success))
+                    opt.Ignore())
                 .ForMember(x => x.CardDetails, opt =>
                     opt.MapFrom<EncryptCardDetailsResolver>());
         }

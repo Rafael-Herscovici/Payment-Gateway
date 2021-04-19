@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   paymentgatewayapi:
+    hostname: paymentgatewayapi
     image: ${DOCKER_REGISTRY-}paymentgatewayapi
     build:
       context: .
@@ -10,8 +11,10 @@ services:
      - ./build/secrets.env.dev
     depends_on:
     - mssql
+    - bankemulator
 
   bankemulator:
+    hostname: bankemulator
     image: ${DOCKER_REGISTRY-}bankemulator
     build:
       context: .

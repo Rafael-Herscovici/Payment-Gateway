@@ -84,7 +84,16 @@ namespace PaymentGatewayAPI.Controllers
             // We have the operation cancelled exception middleware to handle those.
             HttpContext.RequestAborted.ThrowIfCancellationRequested();
 
-            return Ok(await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted));
+            try
+            {
+                var result = await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Could not process the payment.");
+                return Problem(ex.Message);
+            }
         }
     }
 }

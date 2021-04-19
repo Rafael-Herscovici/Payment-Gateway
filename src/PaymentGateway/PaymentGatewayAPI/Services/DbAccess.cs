@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Enums;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -27,6 +28,7 @@ namespace PaymentGatewayAPI.Services
         private readonly PaymentGatewayDbContext _gatewayDbContext;
         private readonly CurrencyExchangeDbContext _exchangeDbContext;
         private readonly IMapper _mapper;
+        private readonly IBankAccess _bankAccess;
 
         /// <summary>
         /// Provides database access for the payment gateway api
@@ -35,17 +37,19 @@ namespace PaymentGatewayAPI.Services
         /// <param name="gatewayDbContext">The gateway db context</param>
         /// <param name="currencyExchangeDbContext">The exchange db context</param>
         /// <param name="mapper">Mapper service</param>
+        /// <param name="bankAccess">Access to the <see cref="BankAccess"/> http client</param>
         public DbAccess(
             ILogger<DbAccess> logger,
             IMapper mapper,
             PaymentGatewayDbContext gatewayDbContext,
-            CurrencyExchangeDbContext currencyExchangeDbContext
-            )
+            CurrencyExchangeDbContext currencyExchangeDbContext,
+            IBankAccess bankAccess)
         {
             _logger = logger;
             _mapper = mapper;
             _gatewayDbContext = gatewayDbContext;
             _exchangeDbContext = currencyExchangeDbContext;
+            _bankAccess = bankAccess;
         }
 
         /// <summary>
@@ -57,10 +61,24 @@ namespace PaymentGatewayAPI.Services
             PaymentRequest paymentRequestModel,
             CancellationToken cancellationToken = default)
         {
-            var paymentRequestEntity = _mapper.Map<PaymentRequestEntity>(paymentRequestModel);
-            await _gatewayDbContext.AddAsync(paymentRequestEntity, cancellationToken);
-            await _gatewayDbContext.SaveChangesAsync(cancellationToken);
-            return _mapper.Map<PaymentResponse>(paymentRequestEntity);
+            await using var transaction = _gatewayDbContext.Database.BeginTransaction();
+            try
+            {
+                var paymentRequestEntity = _mapper.Map<PaymentRequestEntity>(paymentRequestModel);
+
+                paymentRequestEntity.PaymentStatus = await _bankAccess.ProcessPaymentAsync(paymentRequestModel);
+
+                await _gatewayDbContext.AddAsync(paymentRequestEntity, cancellationToken);
+                await _gatewayDbContext.SaveChangesAsync(cancellationToken);
+                transaction.Commit();
+                return _mapper.Map<PaymentResponse>(paymentRequestEntity);
+            }
+            catch (Exception ex)
+            {
+                // Dev note: we just throw the exception and let it bubble up, we just log it so we are aware of it.
+                _logger.LogError(ex, "An error occured while trying to process the transaction.");
+                throw;
+            }
         }
 
         /// <summary>
