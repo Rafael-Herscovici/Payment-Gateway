@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using Microsoft.Extensions.Options;
-using PaymentGatewayAPI.Models;
 
 namespace PaymentGatewayAPI.Services
 {
@@ -18,9 +17,9 @@ namespace PaymentGatewayAPI.Services
 
         /// <inheritdoc cref="Encryption"/>
         public Encryption(
-            IOptions<PaymentGatewayOptions> options)
+            IConfiguration configuration)
         {
-            _aesKey = options.Value.AesEncryptionKey;
+            _aesKey = configuration["AesEncryptionKey"];
             if (string.IsNullOrEmpty(_aesKey))
                 throw new ArgumentNullException(nameof(_aesKey));
         }
