@@ -62,9 +62,9 @@ namespace PaymentGatewayAPI.Services
         }
 
         /// <summary>
-        /// Decrypts the ciphertext using the Key.
+        /// Decrypts the cipher text using the Key.
         /// </summary>
-        /// <param name="ciphertext">The ciphertext to decrypt.</param>
+        /// <param name="ciphertext">The cipher text to decrypt.</param>
         /// <returns>The decrypted text.</returns>
         public virtual string Decrypt(string ciphertext)
         {
