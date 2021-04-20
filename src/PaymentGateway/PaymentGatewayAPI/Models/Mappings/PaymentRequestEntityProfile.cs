@@ -10,12 +10,8 @@ namespace PaymentGatewayAPI.Models.Mappings
 #pragma warning disable CS1591
     public class PaymentRequestEntityProfile : Profile
     {
-        private static Encryption _encryption = null!;
-
-        public PaymentRequestEntityProfile(Encryption encryption)
+        public PaymentRequestEntityProfile()
         {
-            _encryption = encryption;
-
             CreateMap<PaymentRequestEntity, PaymentResponse>()
                 .ForMember(x => x.PaymentId, opt =>
                     opt.MapFrom(x => x.PaymentId))
@@ -51,6 +47,12 @@ namespace PaymentGatewayAPI.Models.Mappings
 
         public class EncryptCardDetailsResolver : IValueResolver<PaymentRequest, PaymentRequestEntity, string>
         {
+            private static Encryption _encryption = null!;
+            public EncryptCardDetailsResolver(Encryption encryption)
+            {
+                _encryption = encryption;
+            }
+
             public string Resolve(PaymentRequest source, PaymentRequestEntity destination, string member, ResolutionContext context)
             {
                 return _encryption.Encrypt(JsonConvert.SerializeObject(source.CardDetails));
@@ -59,6 +61,12 @@ namespace PaymentGatewayAPI.Models.Mappings
 
         public class MaskCardDetailsResolver : IValueResolver<PaymentRequestEntity, PaymentHistoric, CardDetails>
         {
+            private static Encryption _encryption = null!;
+            public MaskCardDetailsResolver(Encryption encryption)
+            {
+                _encryption = encryption;
+            }
+
             public CardDetails Resolve(PaymentRequestEntity source, PaymentHistoric destination, CardDetails member, ResolutionContext context)
             {
                 var cardDetails = JsonConvert.DeserializeObject<CardDetails>(

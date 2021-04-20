@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentGatewayAPI.Models;
+using PaymentGatewayAPI.Models.Mappings;
 using PaymentGatewayAPI.Services;
 using PaymentGatewayDB;
 using Polly;
@@ -27,6 +28,8 @@ namespace PaymentGatewayAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDefaultServices<Startup, PaymentGatewayDbContext>(Configuration);
+            services.AddSingleton<PaymentRequestEntityProfile.MaskCardDetailsResolver>();
+            services.AddSingleton<PaymentRequestEntityProfile.EncryptCardDetailsResolver>();
             services.Configure<PaymentGatewayOptions>(Configuration.GetSection(nameof(PaymentGatewayOptions)));
             services.AddScoped<DbAccess>();
             services.AddSingleton<Encryption>();

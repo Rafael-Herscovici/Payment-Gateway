@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace PaymentGateway.UnitTests
@@ -184,9 +185,10 @@ namespace PaymentGateway.UnitTests
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
 
-            var encryption = new Encryption(configuration);
-            var paymentEntityMapperProfile = new PaymentRequestEntityProfile(encryption);
-            var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(paymentEntityMapperProfile));
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new PaymentRequestEntityProfile(new Encryption(configuration)));
+            });
             return new Mapper(mapperConfiguration);
         }
 

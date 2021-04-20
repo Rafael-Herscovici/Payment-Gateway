@@ -44,7 +44,6 @@ namespace CommonAPI.Extensions
                 })
                 .AddSwaggerGenNewtonsoftSupport()
                 .AddAutoMapper(typeof(TStartup))
-
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
