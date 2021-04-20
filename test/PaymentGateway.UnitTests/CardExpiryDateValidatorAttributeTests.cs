@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Common.Attributes;
 using Xunit;
 
 namespace PaymentGateway.UnitTests
