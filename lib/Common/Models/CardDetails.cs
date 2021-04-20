@@ -12,7 +12,7 @@ namespace Common.Models
         /// The card number
         /// </summary>
         [Required]
-        [CreditCard]
+        [CreditCard, StringLength(maximumLength: 16, MinimumLength = 16)]
         public string CardNumber { get; set; } = null!;
 
         /// <summary>
