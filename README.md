@@ -1,11 +1,11 @@
 # Checkout.com
 A "Take home" task from **checkout.com**
 
-##Requirments summary
+## Requirments summary
 
 Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Bank_.
 
-##Extra mile points:
+## Extra mile points:
 
 1. Application logging - Done, (Serilog) Logs to Consols and File, minimal
 2. Application metrics - Done, (ApplicationInsights) Added very basic application insights telemetry (see PaymentController:ProcessPaymentAsync), needs to be spec'd out
@@ -17,7 +17,7 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 8. Encryption          - Done, CardData on the Gateway is encrypted decrypted, Please note since the Bank is not the main project here, no encryption was used.
 9. Data Storage        - (LocalDb/MSSQL) While its a vogue description, i guess it refers to persistance storage, Provided both with LocalDb when running locally, and SQLServer when running in docker.
 
-##Other implementations
+## Other implementations
 1. Automapper
 2. HttpClientFactory
 3. Polly
@@ -25,7 +25,7 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 5. EntityFramework (+Migrations +DbMigrator service)
 6. Custom validation attributes (See CardExpiryDateValidator), Peronally i prefer FluentValidation
 
-###Personal notes:
+### Personal notes:
 1. Please be aware there are quick a few "Dev note:" comments in the code, Mainly explaining choices i have made.
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
