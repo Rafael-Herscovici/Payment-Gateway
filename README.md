@@ -1,5 +1,4 @@
-# Checkout.com
-A "Take home" task from **checkout.com**
+# Payment Gateway exercise
 
 ## Requirments summary
 
