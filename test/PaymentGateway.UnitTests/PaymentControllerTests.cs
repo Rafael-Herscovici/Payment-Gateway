@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Xunit;
 
 namespace PaymentGateway.UnitTests
@@ -131,6 +133,7 @@ namespace PaymentGateway.UnitTests
             var actionResult = await sut.ProcessPaymentAsync(
                 _mockLogger.Object,
                 mockDbAccess.Object,
+                new TelemetryClient(new TelemetryConfiguration($"Test-{Guid.NewGuid()}")),
                 paymentRequest,
                 cancellationToken);
 
@@ -171,6 +174,7 @@ namespace PaymentGateway.UnitTests
             var actionResult = await sut.ProcessPaymentAsync(
                 _mockLogger.Object,
                 mockDbAccess.Object,
+                new TelemetryClient(new TelemetryConfiguration($"Test-{Guid.NewGuid()}")),
                 paymentRequest,
                 cancellationToken);
 
@@ -211,6 +215,7 @@ namespace PaymentGateway.UnitTests
             var actionResult = await sut.ProcessPaymentAsync(
                 _mockLogger.Object,
                 mockDbAccess.Object,
+                new TelemetryClient(new TelemetryConfiguration($"Test-{Guid.NewGuid()}")), 
                 paymentRequest,
                 cancellationToken);
 
