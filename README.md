@@ -28,5 +28,18 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 1. Please be aware there are quick a few "Dev note:" comments in the code, Mainly explaining choices i have made.
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
+4. The bank database is seeded with a single account and the following payload could be used (on either API) to charge from the account:
 
+```json
+{
+  "merchantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "amount": 10,
+  "currency": "GBP",
+  "cardDetails": {
+    "cardNumber": "4532345562363802",
+    "cardExpiryDate": "12-29",
+    "cardSecurityCode": "123"
+  }
+}
+```
 > This was a really fun exercise and i might have went a bit overboard with implementation, since i was enjoying myself (actually forgot im supposed to hand it over...).
