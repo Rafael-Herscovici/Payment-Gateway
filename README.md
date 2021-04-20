@@ -23,6 +23,7 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 4. Swagger documentation
 5. EntityFramework (+Migrations +DbMigrator service)
 6. Custom validation attributes (See CardExpiryDateValidator), Peronally i prefer FluentValidation
+7. CurrencyExchange project which runs as a timed background service fetching the VALID currencies for the bank and their rates.
 
 #### Personal notes:
 1. Please be aware there are quick a few "Dev note:" comments in the code, Mainly explaining choices i have made.
@@ -33,13 +34,13 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 
 ```json
 {
-  "merchantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "amount": 10,
-  "currency": "GBP",
+  "merchantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", // Can be any guid
+  "amount": 10, // Can be any amount, note: the seeded account has 1000 EUR initially
+  "currency": "GBP", // Can be any VALID currency (See CurrencyExchange project)
   "cardDetails": {
-    "cardNumber": "4532345562363802",
-    "cardExpiryDate": "12-29",
-    "cardSecurityCode": "123"
+    "cardNumber": "4532345562363802", // Pre seeded account card number
+    "cardExpiryDate": "12-29", // Pre Seeded account expiry date
+    "cardSecurityCode": "123" // Pre Seeded account security code
   }
 }
 ```
