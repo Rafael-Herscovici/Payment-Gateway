@@ -4,8 +4,10 @@ using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 
 namespace PaymentGatewayAPI.Controllers
 {
@@ -51,6 +53,7 @@ namespace PaymentGatewayAPI.Controllers
         /// </summary>
         /// <param name="logger">A logger</param>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
+        /// <param name="telemetryClient">Application insights</param>
         /// <param name="paymentRequest">a <see cref="PaymentRequest"/> model.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>
@@ -61,6 +64,7 @@ namespace PaymentGatewayAPI.Controllers
         public async Task<ActionResult<PaymentResponse>> ProcessPaymentAsync(
             [FromServices] ILogger<PaymentController> logger,
             [FromServices] DbAccess dbAccess,
+            [FromServices] TelemetryClient telemetryClient,
             [FromBody] PaymentRequest paymentRequest,
             CancellationToken cancellationToken = default)
         {
@@ -79,7 +83,12 @@ namespace PaymentGatewayAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await dbAccess.ProcessPaymentAsync(paymentRequest, cancellationToken));
+            var paymentResponse = await dbAccess.ProcessPaymentAsync(paymentRequest, cancellationToken);
+            telemetryClient.TrackEvent(nameof(PaymentRequest), new Dictionary<string, string>
+            {
+               { nameof(PaymentRequest.MerchantId), paymentRequest.MerchantId.ToString() }
+            });
+            return Ok(paymentResponse);
         }
     }
 }

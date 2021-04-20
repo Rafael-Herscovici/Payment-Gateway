@@ -25,8 +25,11 @@ namespace CommonAPI.HostedServices
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             using var scope = _serviceProvider.CreateScope();
-            var myDbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
-            await myDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
+            var dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
+            // TODO: WARNING!!!! The following line needs to be removed, we delete the database before migration since we want a fresh start.
+            await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+
+            await dbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
         }
 
         /// <inheritdoc />

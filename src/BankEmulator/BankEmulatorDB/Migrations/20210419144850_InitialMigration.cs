@@ -26,7 +26,7 @@ namespace BankEmulatorDB.Migrations
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "CardNumber", "Balance", "CardExpiryDate", "CardSecurityCode", "CreatedDate", "UpdatedDate" },
-                values: new object[] { "367839570755981", 1000m, new DateTime(2029, 12, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 123, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null! });
+                values: new object[] { "4532345562363802", 1000m, new DateTime(2029, 12, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 123, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null! });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CardNumber_CardExpiryDate_CardSecurityCode",

@@ -30,6 +30,8 @@ namespace CommonAPI.Extensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", typeof(TClass).Namespace);
             });
 
+            // Dev note: Disabled, since the localhost dev ssl does not allow container to container communications
+            // We could create our own ssl certificates.
             // app.UseHttpsRedirection();
 
             app.UseSerilogRequestLogging();

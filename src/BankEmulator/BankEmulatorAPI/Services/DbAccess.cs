@@ -71,7 +71,10 @@ namespace BankEmulatorAPI.Services
                 chargeAmount *= await GetCurrencyRate(paymentRequest.Currency);
 
             if (account.Balance < chargeAmount)
+            {
+                _logger.LogInformation("Balance to low.");
                 return PaymentStatus.Failed;
+            }
 
             account.Balance -= chargeAmount;
 

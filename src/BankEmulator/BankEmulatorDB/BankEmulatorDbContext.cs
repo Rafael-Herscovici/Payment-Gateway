@@ -41,7 +41,7 @@ namespace BankEmulatorDB
             {
                 new AccountEntity
                 {
-                    CardNumber = "367839570755981",
+                    CardNumber = "4532345562363802",
                     CardExpiryDate = new DateTime(2029,12,29),
                     CardSecurityCode = 123,
                     Balance = 1000

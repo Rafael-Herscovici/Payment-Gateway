@@ -39,6 +39,7 @@ namespace PaymentGatewayAPI
                     .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
                     .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+            services.AddApplicationInsightsTelemetry();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
