@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PaymentGatewayAPI.Models;
 using PaymentGatewayAPI.Services;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PaymentGatewayAPI.Controllers
@@ -15,37 +16,31 @@ namespace PaymentGatewayAPI.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly ILogger<PaymentController> _logger;
-
-        /// <inheritdoc />
-        public PaymentController(ILogger<PaymentController> logger)
-        {
-            _logger = logger;
-        }
-
         /// <summary>
         /// Get a payment by its id
         /// </summary>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
         /// <param name="paymentId">The payment id</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>
         ///     <see cref="PaymentHistoric"/> when processed successfully
         ///     <see cref="NotFoundResult"/> result when validation fails
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<PaymentHistoric>> GetPaymentById(
+        public async Task<ActionResult<PaymentHistoric>> GetPaymentByIdAsync(
             [FromServices] DbAccess dbAccess,
-            Guid paymentId)
+            Guid paymentId,
+            CancellationToken cancellationToken = default)
         {
             // Dev note: This endpoint allow to retrieve ANY paymentId, since we have no secure way to authenticate the merchant
             // We could implement authentication and then get the merchant id from the authenticated user and only provide payments
             // that were created by that specific merchant.
 
-            var paymentHistoric = await dbAccess.GetPaymentByIdAsync(paymentId);
+            var paymentHistoric = await dbAccess.GetPaymentByIdAsync(paymentId, cancellationToken);
             if (paymentHistoric == null)
                 return NotFound(new ProblemDetails
                 {
-                    Title = "The requested Payment id could not be found."
+                    Detail = "The requested Payment id could not be found."
                 });
 
             return Ok(paymentHistoric);
@@ -54,21 +49,25 @@ namespace PaymentGatewayAPI.Controllers
         /// <summary>
         /// Process a payment on a merchant behalf.
         /// </summary>
+        /// <param name="logger">A logger</param>
         /// <param name="dbAccess">The <see cref="DbAccess"/> service.</param>
         /// <param name="paymentRequest">a <see cref="PaymentRequest"/> model.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>
         ///     <see cref="PaymentResponse"/> when processed successfully
         ///     <see cref="BadRequestResult"/> result when validation fails
         /// </returns>
         [HttpPost]
         public async Task<ActionResult<PaymentResponse>> ProcessPaymentAsync(
+            [FromServices] ILogger<PaymentController> logger,
             [FromServices] DbAccess dbAccess,
-            [FromBody] PaymentRequest paymentRequest)
+            [FromBody] PaymentRequest paymentRequest,
+            CancellationToken cancellationToken = default)
         {
             // Validate currency
-            if (!await dbAccess.IsValidCurrencyAsync(paymentRequest.Currency))
+            if (!await dbAccess.IsValidCurrencyAsync(paymentRequest.Currency, cancellationToken))
             {
-                var supportCurrencies = await dbAccess.GetSupportedCurrenciesAsync();
+                var supportCurrencies = await dbAccess.GetSupportedCurrenciesAsync(cancellationToken);
                 ModelState.AddModelError(
                     nameof(paymentRequest.Currency),
                     $"Invalid currency, supported currencies: {string.Join(",", supportCurrencies)}.");
@@ -76,24 +75,11 @@ namespace PaymentGatewayAPI.Controllers
 
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");
+                logger.LogWarning($"An invalid model state was supplied to {nameof(ProcessPaymentAsync)}.");
                 return BadRequest(ModelState);
             }
 
-            // Dev note: This will throw an exception anywhere down the pipeline if cancellation was requested.
-            // We have the operation cancelled exception middleware to handle those.
-            HttpContext.RequestAborted.ThrowIfCancellationRequested();
-
-            try
-            {
-                var result = await dbAccess.ProcessPaymentAsync(paymentRequest, HttpContext.RequestAborted);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Could not process the payment.");
-                return Problem(ex.Message);
-            }
+            return Ok(await dbAccess.ProcessPaymentAsync(paymentRequest, cancellationToken));
         }
     }
 }

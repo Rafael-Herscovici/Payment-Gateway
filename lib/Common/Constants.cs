@@ -9,6 +9,7 @@
         /// Date separator
         /// </summary>
         public const char DateSeparator = '-';
+        public static readonly string ExpiryDateFormat = $"MM{DateSeparator}yy";
         /// <summary>
         /// Character used to mask a character
         /// </summary>

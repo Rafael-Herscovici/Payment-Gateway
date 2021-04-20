@@ -1,6 +1,7 @@
 using AutoFixture;
 using AutoMapper;
 using Common;
+using Common.Entities;
 using Common.Enums;
 using Common.Models;
 using CurrencyExchange;
@@ -10,17 +11,15 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using PaymentGatewayAPI.Models.Mappings;
 using PaymentGatewayAPI.Services;
-using PaymentGatewayDB;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Entities;
 using Xunit;
 
 namespace PaymentGateway.UnitTests
 {
-    public class DbAccessTests
+    public class DbAccessTests : UnitTestBase
     {
         private readonly Mock<ILogger<DbAccess>> _mockLogger =
             new Mock<ILogger<DbAccess>>();
@@ -177,10 +176,7 @@ namespace PaymentGateway.UnitTests
             Assert.Single(result, currency => currency.Equals(Constants.DefaultCurrency));
         }
 
-        private PaymentGatewayDbContext GetGatewayDbContext() =>
-            new PaymentGatewayDbContext(GetInMemoryDbContextOptions<PaymentGatewayDbContext>());
-        private CurrencyExchangeDbContext GetExchangeDbContext() =>
-            new CurrencyExchangeDbContext(GetInMemoryDbContextOptions<CurrencyExchangeDbContext>());
+
         private static IMapper GetMapper()
         {
             var inMemorySettings = new Dictionary<string, string> { { "AesEncryptionKey", "BlaBlaBlaKey" } };
@@ -193,11 +189,7 @@ namespace PaymentGateway.UnitTests
             var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(paymentEntityMapperProfile));
             return new Mapper(mapperConfiguration);
         }
-        private DbContextOptions<TDbContext> GetInMemoryDbContextOptions<TDbContext>()
-            where TDbContext : DbContext =>
-            new DbContextOptionsBuilder<TDbContext>()
-                .UseInMemoryDatabase(databaseName: nameof(PaymentGatewayDB))
-                .Options;
+
         private async Task SeedCurrenciesDatabase()
         {
             await using var context = new CurrencyExchangeDbContext(GetInMemoryDbContextOptions<CurrencyExchangeDbContext>());

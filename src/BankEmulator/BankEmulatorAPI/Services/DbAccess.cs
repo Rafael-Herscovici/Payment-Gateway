@@ -53,7 +53,7 @@ namespace BankEmulatorAPI.Services
             PaymentRequest paymentRequest,
             CancellationToken cancellationToken = default)
         {
-            var expiryDate = DateTime.ParseExact(paymentRequest.CardDetails.CardExpiryDate, "MM-yy", CultureInfo.InvariantCulture);
+            var expiryDate = DateTime.ParseExact(paymentRequest.CardDetails.CardExpiryDate, Constants.ExpiryDateFormat, CultureInfo.InvariantCulture);
             var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x =>
                     x.CardNumber == paymentRequest.CardDetails.CardNumber
                     && x.CardExpiryDate.Year == expiryDate.Year && x.CardExpiryDate.Month == expiryDate.Month

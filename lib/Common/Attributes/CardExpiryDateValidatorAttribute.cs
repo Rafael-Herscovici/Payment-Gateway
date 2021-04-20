@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -15,21 +16,20 @@ namespace Common.Attributes
         {
             var expiryDate = value?.ToString();
             if (string.IsNullOrWhiteSpace(expiryDate))
-                return new ValidationResult(validationContext.DisplayName + " is required.");
+                return new ValidationResult($"{validationContext.DisplayName} is required.", new List<string> { validationContext.DisplayName });
 
             var pattern = @"^(0[1-9]|1[0-2])\" + Constants.DateSeparator + "?(([0-9]{2})$)";
             if (!Regex.IsMatch(expiryDate, pattern))
-                return new ValidationResult($"Must be in MM{Constants.DateSeparator}yy format.");
+                return new ValidationResult($"{validationContext.DisplayName} must be in {Constants.ExpiryDateFormat} format.", new List<string> { validationContext.DisplayName });
 
-            var split = expiryDate.Split(Constants.DateSeparator);
-            if (DateTime.TryParseExact($"{split[0]}{split[1]}", "MMyy", null, DateTimeStyles.None, out var result))
+            if (DateTime.TryParseExact(expiryDate, Constants.ExpiryDateFormat, null, DateTimeStyles.None, out var result))
             {
                 var now = DateTime.UtcNow;
                 if (result.Year >= now.Month && result.Year >= now.Year)
                     return ValidationResult.Success;
             }
 
-            return new ValidationResult("The expiry date is invalid.");
+            return new ValidationResult($"{validationContext.DisplayName} is invalid.", new List<string> { validationContext.DisplayName });
         }
     }
 }

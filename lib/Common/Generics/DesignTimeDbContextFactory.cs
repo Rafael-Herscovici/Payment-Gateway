@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Generics
 {
+    [ExcludeFromCodeCoverage]
     public class DesignTimeDbContextFactory<TDbContext> : IDesignTimeDbContextFactory<TDbContext>
         where TDbContext : DbContext, new()
     {
