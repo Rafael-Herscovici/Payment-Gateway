@@ -180,16 +180,24 @@ namespace PaymentGateway.UnitTests
 
         private static IMapper GetMapper()
         {
-            var inMemorySettings = new Dictionary<string, string> { { "AesEncryptionKey", "BlaBlaBlaKey" } };
             var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(inMemorySettings)
+                .AddInMemoryCollection(new Dictionary<string, string> {
+                {
+                    "AesEncryptionKey", "FakeAesKey"
+                } })
                 .Build();
 
-            var mapperConfiguration = new MapperConfiguration(cfg =>
+            var services = new ServiceCollection();
+            services.AddSingleton<PaymentRequestEntityProfile.MaskCardDetailsResolver>();
+            services.AddSingleton<PaymentRequestEntityProfile.EncryptCardDetailsResolver>();
+            services.AddSingleton(new Encryption(configuration));
+            services.AddAutoMapper(cfg =>
             {
-                cfg.AddProfile(new PaymentRequestEntityProfile(new Encryption(configuration)));
+                cfg.AddProfile<PaymentRequestEntityProfile>();
             });
-            return new Mapper(mapperConfiguration);
+            var provider = services.BuildServiceProvider();
+
+            return provider.GetService<IMapper>();
         }
 
         private async Task SeedCurrenciesDatabase()
