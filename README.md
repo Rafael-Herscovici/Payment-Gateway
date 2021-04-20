@@ -19,7 +19,7 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 
 ## Other implementations
 1. Automapper
-2. Typed Http client using HttpClientFactory
+2. Typed HttpClient using HttpClientFactory
 3. Polly for HttpClient retry mechanism
 4. Swagger documentation
 5. EntityFramework (+Migrations +DbMigrator service)
