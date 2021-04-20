@@ -30,3 +30,5 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
 
+####
+This was a really fun exercise and i might have went a bit overboard with implementation, since i was enjoying myself (actually forgot im supposed to hand it over...).
