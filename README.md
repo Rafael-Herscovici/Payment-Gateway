@@ -35,7 +35,7 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
 4. Merchant id is not validated, since we have no authentication scheme.
-5. Intefaces were used only in 3th Party calls, where "pluggability" is required, to allow Unit testing for classes that are not inherited from, Virtual methods were used.
+5. Intefaces were used only in 3th Party calls, where "pluggability" is required, to allow Unit testing for classes that are not inherited from and/or are not 3rd party, Virtual methods were used.
     * [What is an interface](https://www.cs.utah.edu/~germain/PPS/Topics/interfaces.html#:~:text=An%20interface%20is%20a%20programming,have%20a%20start_engine()%20action.)
     
     * [Should every class i write adhere to an interface](https://softwareengineering.stackexchange.com/questions/317371/should-every-class-i-write-adhere-to-an-interface)
