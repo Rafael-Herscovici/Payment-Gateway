@@ -25,12 +25,24 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 6. Custom validation attributes (See CardExpiryDateValidator), Peronally i prefer FluentValidation
 7. CurrencyExchange project which runs as a timed background service fetching the VALID currencies for the bank and their rates.
 
+#### Testing implementations
+1. AutoFixture
+2. Moq
+3. xUnit
+
 #### Personal notes:
 1. Please be aware there are quick a few "Dev note:" comments in the code, Mainly explaining choices i have made.
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
 4. Merchant id is not validated, since we have no authentication scheme.
 5. Intefaces were used only in 3th Party calls, where "pluggability" is required, to allow Unit testing for classes that are not inherited from, Virtual methods were used.
+##### refrences:
+[Should every class i write adhere to an interface](https://softwareengineering.stackexchange.com/questions/317371/should-every-class-i-write-adhere-to-an-interface)
+[What is an interface](https://www.cs.utah.edu/~germain/PPS/Topics/interfaces.html#:~:text=An%20interface%20is%20a%20programming,have%20a%20start_engine()%20action.)
+[Interface vs Virtual performance](https://thedeveloperblog.com/interface-virtual-performance)
+[Mocking via interface vs delegate vs virtual method in C#](https://gaevoy.com/2019/08/29/mocking-via-interface-delegate-virtual-method.html#mocking-via-virtual-method)
+[Mocking objects - declare all methods as virtual or use interface?](https://stackoverflow.com/questions/691725/mocking-objects-declare-all-methods-as-virtual-or-use-interface)
+
 6. The bank database is seeded with a single account and the following payload could be used (on either API) to charge from the account:
 
 ```json
