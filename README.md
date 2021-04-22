@@ -30,7 +30,8 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 2. The docker image of SQLServer has known issues, if Docker-Compose dosent run in first try, Please try a few more times.
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
 4. Merchant id is not validated, since we have no authentication scheme.
-5. The bank database is seeded with a single account and the following payload could be used (on either API) to charge from the account:
+5. Intefaces were used only in 3th Party calls, where "pluggability" is required, to allow Unit testing for classes that are not inherited from, Virtual methods were used.
+6. The bank database is seeded with a single account and the following payload could be used (on either API) to charge from the account:
 
 ```json
 {
