@@ -36,16 +36,15 @@ Build a Gateway to charge a _Shopper_ for a _Merchant_, using the shopper's _Ban
 3. Unit testing was done for PaymentGateway only, with a 98% coverage, please note i have ommited verification tests for Telemtry/Logging, even though those should be added.
 4. Merchant id is not validated, since we have no authentication scheme.
 5. Intefaces were used only in 3th Party calls, where "pluggability" is required, to allow Unit testing for classes that are not inherited from, Virtual methods were used.
+    * [Should every class i write adhere to an interface](https://softwareengineering.stackexchange.com/questions/317371/should-every-class-i-write-adhere-to-an-interface)
 
-[Should every class i write adhere to an interface](https://softwareengineering.stackexchange.com/questions/317371/should-every-class-i-write-adhere-to-an-interface)
+    * [What is an interface](https://www.cs.utah.edu/~germain/PPS/Topics/interfaces.html#:~:text=An%20interface%20is%20a%20programming,have%20a%20start_engine()%20action.)
 
-[What is an interface](https://www.cs.utah.edu/~germain/PPS/Topics/interfaces.html#:~:text=An%20interface%20is%20a%20programming,have%20a%20start_engine()%20action.)
+    * [Interface vs Virtual performance](https://thedeveloperblog.com/interface-virtual-performance)
 
-[Interface vs Virtual performance](https://thedeveloperblog.com/interface-virtual-performance)
+    * [Mocking via interface vs delegate vs virtual method in C#](https://gaevoy.com/2019/08/29/mocking-via-interface-delegate-virtual-method.html#mocking-via-virtual-method)
 
-[Mocking via interface vs delegate vs virtual method in C#](https://gaevoy.com/2019/08/29/mocking-via-interface-delegate-virtual-method.html#mocking-via-virtual-method)
-
-[Mocking objects - declare all methods as virtual or use interface?](https://stackoverflow.com/questions/691725/mocking-objects-declare-all-methods-as-virtual-or-use-interface)
+    * [Mocking objects - declare all methods as virtual or use interface?](https://stackoverflow.com/questions/691725/mocking-objects-declare-all-methods-as-virtual-or-use-interface)
 
 6. The bank database is seeded with a single account and the following payload could be used (on either API) to charge from the account:
 
